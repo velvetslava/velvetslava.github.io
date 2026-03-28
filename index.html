@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slava Barkhatov — Enterprise Brain, Founder Speed</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0B0D17;
+    --bg-card: #141726;
+    --bg-card-hover: #1A1D30;
+    --text: #E8E8ED;
+    --text-secondary: #8B8FA3;
+    --accent: #7C6AFA;
+    --accent-light: #9B8AFB;
+    --accent-glow: rgba(124, 106, 250, 0.15);
+    --border: #252840;
+    --border-glow: rgba(124, 106, 250, 0.3);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 64px 40px 80px;
+  }
+
+  /* LANG TOGGLE */
+  .lang-toggle {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    z-index: 100;
+    display: flex;
+  }
+
+  .lang-toggle button {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 6px 14px;
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .lang-toggle button:first-child {
+    border-radius: 6px 0 0 6px;
+    border-right: none;
+  }
+
+  .lang-toggle button:last-child {
+    border-radius: 0 6px 6px 0;
+  }
+
+  .lang-toggle button.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  /* HERO */
+  .hero {
+    display: flex;
+    gap: 48px;
+    align-items: flex-start;
+    margin-bottom: 48px;
+  }
+
+  .hero-photo {
+    flex-shrink: 0;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    box-shadow:
+      0 0 60px rgba(124, 106, 250, 0.25),
+      0 0 120px rgba(124, 106, 250, 0.12),
+      0 0 0 2px rgba(124, 106, 250, 0.3),
+      0 0 0 6px rgba(124, 106, 250, 0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .hero-photo:hover {
+    transform: scale(1.04);
+    box-shadow:
+      0 0 80px rgba(124, 106, 250, 0.35),
+      0 0 150px rgba(124, 106, 250, 0.15),
+      0 0 0 2px rgba(124, 106, 250, 0.45),
+      0 0 0 6px rgba(124, 106, 250, 0.12);
+  }
+
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-text {
+    flex: 1;
+    padding-top: 8px;
+  }
+
+  .hero-text h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 52px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    color: #fff;
+  }
+
+  .hero-tagline {
+    font-size: 18px;
+    font-style: italic;
+    color: var(--accent-light);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hero-tagline .sparkle {
+    font-style: normal;
+  }
+
+  .hero-oneliner {
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 24px;
+    max-width: 480px;
+  }
+
+  .hero-contacts {
+    display: flex;
+    gap: 12px;
+  }
+
+  .hero-contacts a {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 18px;
+    transition: all 0.2s;
+  }
+
+  .hero-contacts a:hover {
+    border-color: var(--accent);
+    color: var(--accent-light);
+    box-shadow: 0 0 16px var(--accent-glow);
+  }
+
+  /* METRICS */
+  .metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 48px;
+    justify-content: center;
+  }
+
+  .metric-pill {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .metric-pill strong {
+    color: var(--accent-light);
+  }
+
+  /* PITCH */
+  .pitch {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--text);
+    margin-bottom: 48px;
+    max-width: 720px;
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .section-label .dash {
+    width: 20px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 1px;
+  }
+
+  .section-label span {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent-light);
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    transition: all 0.2s;
+  }
+
+  .card:hover {
+    border-color: var(--border-glow);
+    background: var(--bg-card-hover);
+  }
+
+  .card-accent {
+    border-left: 3px solid var(--accent);
+  }
+
+  /* CAREER GRID */
+  .career-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .career-card .company {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .career-card .role-period {
+    font-size: 14px;
+    color: var(--accent-light);
+    margin-bottom: 12px;
+  }
+
+  .career-card .desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .career-card .metric-badge {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent-light);
+    background: rgba(124, 106, 250, 0.1);
+    padding: 4px 12px;
+    border-radius: 6px;
+  }
+
+  /* HIGHLIGHT CARD */
+  .highlight {
+    margin-bottom: 48px;
+  }
+
+  .highlight .card {
+    padding: 32px;
+  }
+
+  .highlight p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--text);
+  }
+
+  /* VALUE GRID */
+  .value-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .value-card strong {
+    display: block;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .value-card span {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* STRENGTHS */
+  .strengths-section {
+    margin-bottom: 48px;
+  }
+
+  .strengths-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 40px;
+    padding-top: 8px;
+  }
+
+  .strength-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    font-size: 15px;
+    color: var(--text);
+  }
+
+  .strength-row .arrow {
+    color: var(--accent);
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  /* PAIN POINTS */
+  .pain-section {
+    margin-bottom: 48px;
+  }
+
+  .pain-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .pain-list li {
+    position: relative;
+    padding: 10px 0 10px 24px;
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .pain-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 18px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* NOT A FIT */
+  .notfit-section {
+    margin-bottom: 64px;
+  }
+
+  .notfit-section p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+
+  /* CTA */
+  .cta {
+    text-align: center;
+    padding-top: 48px;
+    border-top: 1px solid var(--border);
+    position: relative;
+  }
+
+  .cta::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  .cta h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 700;
+    font-style: italic;
+    color: #fff;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+
+  .cta .sub {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-bottom: 28px;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #fff;
+    padding: 14px 32px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.2s;
+    box-shadow: 0 4px 24px rgba(124, 106, 250, 0.3);
+  }
+
+  .cta-button:hover {
+    background: var(--accent-light);
+    box-shadow: 0 4px 32px rgba(124, 106, 250, 0.5);
+    transform: translateY(-1px);
+  }
+
+  .cta-button .arrow-icon {
+    font-size: 18px;
+  }
+
+  .cta-channels {
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  .cta-channels a {
+    color: var(--accent-light);
+    text-decoration: none;
+  }
+
+  /* MOBILE */
+  @media (max-width: 700px) {
+    .page { padding: 32px 20px 60px; }
+    .hero { flex-direction: column; gap: 24px; align-items: center; text-align: center; }
+    .hero-photo { width: 180px; height: 180px; }
+    .hero-text h1 { font-size: 36px; }
+    .hero-oneliner { max-width: 100%; }
+    .hero-contacts { justify-content: center; }
+    .career-grid, .value-grid { grid-template-columns: 1fr; }
+    .strengths-grid { grid-template-columns: 1fr; }
+    .cta h2 { font-size: 28px; }
+    .metrics { gap: 8px; }
+    .metric-pill { padding: 8px 14px; font-size: 13px; }
+  }
+
+  /* SVG icons inline */
+  .icon-svg { width: 20px; height: 20px; fill: currentColor; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- LANG TOGGLE -->
+  <div class="lang-toggle">
+    <button onclick="switchLang('en')">EN</button>
+    <button class="active" onclick="switchLang('ru')">RU</button>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-photo">
+      <img src="photo_profile.jpg" alt="Slava Barkhatov">
+    </div>
+    <div class="hero-text">
+      <h1>Slava Barkhatov</h1>
+      <div class="hero-tagline">
+        <span class="sparkle">&#10024;</span>
+        <span data-en="Enterprise brain, founder speed" data-ru="Enterprise мозги, founder скорость">Enterprise brain, founder speed</span>
+      </div>
+      <div class="hero-oneliner" data-en="Strategy + Ops + Growth in one person." data-ru="Strategy + Ops + Growth в одном человеке.">Strategy + Ops + Growth in one person.</div>
+      <div class="hero-contacts">
+        <a href="https://t.me/velvet_slava" title="Telegram"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.37-.49 1.02-.75 3.99-1.74 6.65-2.89 7.99-3.45 3.8-1.6 4.59-1.88 5.1-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.01.06.01.24 0 .37z"/></svg></a>
+        <a href="mailto:velvet.slava@gmail.com" title="Email"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+        <a href="https://linkedin.com/in/slavabarkhatov" title="LinkedIn"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></a>
+        <a href="https://github.com/velvetslava" title="GitHub"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 002 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/></svg></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- METRICS -->
+  <div class="metrics">
+    <div class="metric-pill"><strong>$300M</strong> P&L</div>
+    <div class="metric-pill"><strong>+28%</strong> turnaround</div>
+    <div class="metric-pill"><strong>144%</strong> growth</div>
+    <div class="metric-pill"><strong>$48M</strong> pipeline</div>
+    <div class="metric-pill"><strong>20+</strong> companies</div>
+    <div class="metric-pill"><strong>20+</strong> markets</div>
+    <div class="metric-pill"><strong>5</strong> EFFIE</div>
+  </div>
+
+  <!-- STATEMENT -->
+  <div style="text-align:center;margin-bottom:40px;padding:24px 0;">
+    <div style="font-size:22px;font-weight:600;color:#fff;line-height:1.5;max-width:640px;margin:0 auto;" data-en="I turn a founder's vision into a working machine in the first 90 days." data-ru="Превращаю vision фаундера в работающий механизм за первые 90 дней.">I turn a founder's vision into a working machine in the first 90 days.</div>
+  </div>
+
+  <!-- PITCH -->
+  <div class="pitch" data-en="12 years in growth, strategy and operations. Grew up in FMCG and D2C (Mars, L'Oréal, Yandex), then 4 years at Google as Accelerated Growth Consultant for companies in SaaS, FinTech, D2C, Beauty, Automotive, Retail. Same story everywhere: came in where there was chaos and too many stakeholders — and through people, teams and processes built a working machine. I know how to build high-performance teams and hold alignment when everything is falling apart." data-ru="12 лет в growth, strategy и operations. Вырос в FMCG и D2C (Mars, L'Oréal, Yandex), потом 4 года в Google как Accelerated Growth Consultant для компаний из SaaS, FinTech, D2C, Beauty, Automotive, Retail. Везде одно: приходил туда где хаос и много стейкхолдеров — и через людей, команды и процессы собирал работающий механизм. Умею строить high-performance команды и держать alignment когда всё разъезжается.">12 years in growth, strategy and operations. Grew up in FMCG and D2C (Mars, L'Oréal, Yandex), then 4 years at Google as Accelerated Growth Consultant for companies in SaaS, FinTech, D2C, Beauty, Automotive, Retail. Same story everywhere: came in where there was chaos and too many stakeholders — and through people, teams and processes built a working machine. I know how to build high-performance teams and hold alignment when everything is falling apart.</div>
+
+  <!-- CAREER -->
+  <div class="career-grid">
+    <div class="card card-accent career-card">
+      <div class="company">Google</div>
+      <div class="role-period" data-en="Accelerated Growth Consultant, UK &bull; 2021&ndash;2025" data-ru="Accelerated Growth Consultant, UK &bull; 2021&ndash;2025">Accelerated Growth Consultant, UK &bull; 2021&ndash;2025</div>
+      <div class="desc" data-en="Strategic consulting for 20+ companies from SaaS to automotive. Unit economics analysis, full-day C-suite strategy sessions, vision → execution cycles. Annual portfolio revenue $60M+, average growth 144%. Aston Martin — $19M+, sole strategic partner. $48M pipeline through C-suite advisory." data-ru="Стратегическое консультирование 20+ компаний от SaaS до automotive. Анализ unit economics, full-day стратсессии с C-suite, vision → execution cycles. Годовой revenue портфеля $60M+, средний рост 144%. Aston Martin — $19M+, sole strategic partner. $48M pipeline через C-suite advisory.">Strategic consulting for 20+ companies from SaaS to automotive. Unit economics analysis, full-day C-suite strategy sessions, vision → execution cycles. Annual portfolio revenue $60M+, average growth 144%. Aston Martin — $19M+, sole strategic partner. $48M pipeline through C-suite advisory.</div>
+      <div class="metric-badge">$48M pipeline &middot; 144% growth &middot; 72% multi-product</div>
+    </div>
+
+    <div class="card card-accent career-card" style="display:flex;flex-direction:column;">
+      <div class="company">Yandex</div>
+      <div class="role-period">Brand Strategy & Marketing Lead, Yandex.Music &bull; 2019&ndash;2020</div>
+      <div class="desc" data-en="$100M streaming, product/marketing/business disconnected. First unified operating plans, cross-ecosystem integrations (Drive, Navigator, Auto), GTM for new markets" data-ru="$100M стриминг, продукт/маркетинг/бизнес разрозненны. Первые общие операционные планы, кросс-экосистемные интеграции (Drive, Navigator, Auto), GTM для новых рынков">$100M streaming, product/marketing/business disconnected. First unified operating plans, cross-ecosystem integrations (Drive, Navigator, Auto), GTM for new markets</div>
+      <div class="metric-badge" style="margin-top:auto;">$100M &middot; first operating plans</div>
+    </div>
+
+    <div class="card card-accent career-card" style="display:flex;flex-direction:column;">
+      <div class="company">L'Or&eacute;al</div>
+      <div class="role-period">Brand Business Leader &bull; 2018&ndash;2019</div>
+      <div class="desc" data-en="$65M portfolio in the red for 6 months. +28% in one year. Doubled e-com (direct + marketplace), built e-com team from scratch, restructured org, new roles and KPIs" data-ru="Портфель $65M в минусе полгода. +28% за год. Удвоил e-com (direct + marketplace), собрал e-com команду с нуля, перестроил орг-структуру, новые роли и KPI">$65M portfolio in the red for 6 months. +28% in one year. Doubled e-com (direct + marketplace), built e-com team from scratch, restructured org, new roles and KPIs</div>
+      <div class="metric-badge" style="margin-top:auto;">-0.5% &rarr; +28% in one year</div>
+    </div>
+
+    <div class="card card-accent career-card">
+      <div class="company">Mars</div>
+      <div class="role-period">EMEA Regional Brand Manager &bull; 2013&ndash;2018</div>
+      <div class="desc" data-en="$300M segment, 20+ markets, 6 factories, category declining -4.5%. Built cross-functional alignment, delivered +2.1% vs market. Led EU digital transition. 5 EFFIE Awards." data-ru="$300M сегмент, 20+ рынков, 6 заводов, категория -4.5%. Собрал кросс-функциональный alignment, вывел +2.1% vs рынка. Перевёл EU на digital. 5 наград EFFIE.">$300M segment, 20+ markets, 6 factories, category declining -4.5%. Built cross-functional alignment, delivered +2.1% vs market. Led EU digital transition. 5 EFFIE Awards.</div>
+      <div class="metric-badge">$300M &middot; 20+ markets &middot; 5 EFFIE Awards</div>
+    </div>
+  </div>
+
+  <!-- WHAT I'M LOOKING FOR -->
+  <div class="highlight">
+    <div class="card">
+      <div class="section-label"><div class="dash"></div><span data-en="What I'm looking for" data-ru="Что я ищу">What I'm looking for</span></div>
+      <p data-en="12 years I chose brands and companies. At this stage I'm choosing <strong>a person and a team</strong>. After 4 years of advisory at Google — I want ownership. Build, not recommend. See the result, not the slide. Title is secondary, ownership is primary." data-ru="12 лет выбирал бренд и компанию. На этом этапе выбираю <strong>человека и команду</strong>. После 4 лет advisory в Google — хочу ownership. Строить, а не рекомендовать. Видеть результат, а не слайд. Title вторичен, ownership первичен.">12 years I chose brands and companies. At this stage I'm choosing <strong>a person and a team</strong>. After 4 years of advisory at Google — I want ownership. Build, not recommend. See the result, not the slide. Title is secondary, ownership is primary.</p>
+    </div>
+  </div>
+
+  <!-- VALUE CARDS -->
+  <div class="section-label" style="margin-bottom:20px;"><div class="dash"></div><span data-en="What I Do Best" data-ru="Что я делаю лучше всего">What I Do Best</span></div>
+  <div class="value-grid">
+    <div class="card value-card">
+      <strong data-en="Big Picture → Action" data-ru="Большая картина → конкретика">Big Picture → Action</strong>
+      <span data-en="See the whole picture, translate into roadmap, tasks and delivery" data-ru="Вижу целиком, перевожу в roadmap, задачи и delivery">See the whole picture, translate into roadmap, tasks and delivery</span>
+    </div>
+    <div class="card value-card">
+      <strong data-en="Chaos → System" data-ru="Хаос → система">Chaos → System</strong>
+      <span data-en="Org structure, processes, roles, KPIs — build so it works without me" data-ru="Орг-структура, процессы, роли, KPI — собираю так чтобы работало без меня">Org structure, processes, roles, KPIs — build so it works without me</span>
+    </div>
+    <div class="card value-card">
+      <strong data-en="Stakeholder Alignment" data-ru="Stakeholder Alignment">Stakeholder Alignment</strong>
+      <span data-en="Bridge between founder, team, board and partners. Remove friction" data-ru="Мосты между фаундером, командой, бордом и партнёрами. Убираю friction">Bridge between founder, team, board and partners. Remove friction</span>
+    </div>
+    <div class="card value-card">
+      <strong data-en="Growth Engine" data-ru="Growth Engine">Growth Engine</strong>
+      <span data-en="Unit economics, funnel, channels, GTM. Full-funnel, from numbers to revenue" data-ru="Unit economics, воронка, каналы, GTM. Full-funnel, от цифр до revenue">Unit economics, funnel, channels, GTM. Full-funnel, from numbers to revenue</span>
+    </div>
+    <div class="card value-card">
+      <strong data-en="Team Leadership" data-ru="Team Leadership">Team Leadership</strong>
+      <span data-en="Build high-performance teams from scattered functions. This is what I do best" data-ru="Строю high-performance команды из разрозненных функций. Это лучшее что я делаю">Build high-performance teams from scattered functions. This is what I do best</span>
+    </div>
+    <div class="card value-card">
+      <strong data-en="AI-Native Operations" data-ru="AI-Native Operations">AI-Native Operations</strong>
+      <span data-en="Multi-agentic integrated workflows built on AI stack: Claude Code + Cursor + Codex" data-ru="Multi-agentic integrated workflows на AI-стеке: Claude Code + Cursor + Codex">Multi-agentic integrated workflows built on AI stack: Claude Code + Cursor + Codex</span>
+    </div>
+  </div>
+
+  <!-- STRENGTHS -->
+  <div class="strengths-section">
+    <div class="card">
+      <div class="section-label"><div class="dash"></div><span data-en="Strengths & Working Style" data-ru="Профиль и стиль работы">Strengths & Working Style</span></div>
+      <div class="strengths-grid">
+        <div class="strength-row"><span class="arrow">&rarr;</span> <span data-en="Bias toward action" data-ru="Действие > обсуждение">Bias toward action</span></div>
+        <div class="strength-row"><span class="arrow">&rarr;</span> <span data-en="Clear, direct communication" data-ru="Прямая коммуникация">Clear, direct communication</span></div>
+        <div class="strength-row"><span class="arrow">&rarr;</span> <span data-en="High agency & ownership" data-ru="Высокая агентность">High agency & ownership</span></div>
+        <div class="strength-row"><span class="arrow">&rarr;</span> <span data-en="Data-informed decisions" data-ru="Решения на данных">Data-informed decisions</span></div>
+        <div class="strength-row"><span class="arrow">&rarr;</span> <span data-en="Process light, impact heavy" data-ru="Минимум процесса, максимум импакта">Process light, impact heavy</span></div>
+        <div class="strength-row"><span class="arrow">&rarr;</span> <span data-en="Async-first workflow" data-ru="Async-first">Async-first workflow</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE -->
+  <div class="strengths-section">
+    <div class="card">
+      <div class="section-label"><div class="dash"></div><span data-en="Psychotype" data-ru="Психотип">Psychotype</span></div>
+      <p style="margin-bottom: 16px; font-size: 15px; line-height: 1.6;" data-en="<a href='https://clickup.com/blog/enfp-leadership/' style='color:var(--accent-light);text-decoration:none;border-bottom:1px solid rgba(124,106,250,0.3)'>ENFP</a> — as a leader: I set the vision and rally the team around it. I see potential in people and put them where they shine. Strongest at launching new things and people alignment, weaker at routine grind (which is why I build systems that eliminate it)." data-ru="<a href='https://clickup.com/blog/enfp-leadership/' style='color:var(--accent-light);text-decoration:none;border-bottom:1px solid rgba(124,106,250,0.3)'>ENFP</a> — как лидер: задаю vision и заражаю им команду. Вижу потенциал в людях и ставлю их туда где они раскрываются. Сильнее всего в запуске нового и people alignment, слабее — в рутинном гринде (поэтому строю системы которые его убирают)."><a href="https://clickup.com/blog/enfp-leadership/" style="color:var(--accent-light);text-decoration:none;border-bottom:1px solid rgba(124,106,250,0.3)">ENFP</a> — as a leader: I set the vision and rally the team around it. I see potential in people and put them where they shine. Strongest at launching new things and people alignment, weaker at routine grind (which is why I build systems that eliminate it).</p>
+      <p style="font-size: 15px; color: var(--text-secondary); margin-bottom: 14px;"><a href="https://www.gallup.com/cliftonstrengths/en/253715/34-cliftonstrengths-themes.aspx" style="color:var(--accent-light);text-decoration:none;border-bottom:1px solid rgba(124,106,250,0.3)">Clifton StrengthsFinder</a> <strong style="color:#fff;">Top 10 Strengths</strong></p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;">
+        <div style="background:rgba(124,106,250,0.06);border:1px solid rgba(124,106,250,0.15);border-radius:12px;padding:16px 18px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+            <svg style="width:20px;height:20px;stroke:var(--accent-light);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            <strong style="color:#fff;font-size:14px;">Maximizer</strong>
+          </div>
+          <span style="font-size:13px;color:var(--text-secondary);" data-en="takes what works to best-in-class" data-ru="доводит работающее до best-in-class">takes what works to best-in-class</span>
+        </div>
+        <div style="background:rgba(124,106,250,0.06);border:1px solid rgba(124,106,250,0.15);border-radius:12px;padding:16px 18px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+            <svg style="width:20px;height:20px;stroke:var(--accent-light);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            <strong style="color:#fff;font-size:14px;">Connectedness</strong>
+          </div>
+          <span style="font-size:13px;color:var(--text-secondary);" data-en="sees hidden links between system parts" data-ru="видит скрытые связи между частями системы">sees hidden links between system parts</span>
+        </div>
+        <div style="background:rgba(124,106,250,0.06);border:1px solid rgba(124,106,250,0.15);border-radius:12px;padding:16px 18px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+            <svg style="width:20px;height:20px;stroke:var(--accent-light);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+            <strong style="color:#fff;font-size:14px;">Positivity</strong>
+          </div>
+          <span style="font-size:13px;color:var(--text-secondary);" data-en="clarity and energy through complexity and change" data-ru="ясность и энергия через сложность и перемены">clarity and energy through complexity and change</span>
+        </div>
+        <div style="background:rgba(124,106,250,0.06);border:1px solid rgba(124,106,250,0.15);border-radius:12px;padding:16px 18px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+            <svg style="width:20px;height:20px;stroke:var(--accent-light);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            <strong style="color:#fff;font-size:14px;">Woo</strong>
+          </div>
+          <span style="font-size:13px;color:var(--text-secondary);" data-en="converts skepticism into collaboration" data-ru="конвертирую скептицизм в коллаборацию">converts skepticism into collaboration</span>
+        </div>
+        <div style="background:rgba(124,106,250,0.06);border:1px solid rgba(124,106,250,0.15);border-radius:12px;padding:16px 18px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+            <svg style="width:20px;height:20px;stroke:var(--accent-light);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <strong style="color:#fff;font-size:14px;">Activator</strong>
+          </div>
+          <span style="font-size:13px;color:var(--text-secondary);" data-en="idea → action in hours, not weeks" data-ru="идея → действие за часы, не недели">idea → action in hours, not weeks</span>
+        </div>
+        <div style="background:rgba(124,106,250,0.06);border:1px solid rgba(124,106,250,0.15);border-radius:12px;padding:16px 18px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+            <svg style="width:20px;height:20px;stroke:var(--accent-light);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            <strong style="color:#fff;font-size:14px;">Communication</strong>
+          </div>
+          <span style="font-size:13px;color:var(--text-secondary);" data-en="stimulates conversation to connect and inspire" data-ru="через разговор соединяю и вдохновляю людей">stimulates conversation to connect and inspire</span>
+        </div>
+        <div style="background:rgba(124,106,250,0.06);border:1px solid rgba(124,106,250,0.15);border-radius:12px;padding:16px 18px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+            <svg style="width:20px;height:20px;stroke:var(--accent-light);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            <strong style="color:#fff;font-size:14px;">Empathy</strong>
+          </div>
+          <span style="font-size:13px;color:var(--text-secondary);" data-en="senses others' thoughts and feelings intuitively" data-ru="чувствую мысли и эмоции других интуитивно">senses others' thoughts and feelings intuitively</span>
+        </div>
+        <div style="background:rgba(124,106,250,0.06);border:1px solid rgba(124,106,250,0.15);border-radius:12px;padding:16px 18px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+            <svg style="width:20px;height:20px;stroke:var(--accent-light);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <strong style="color:#fff;font-size:14px;">Futuristic</strong>
+          </div>
+          <span style="font-size:13px;color:var(--text-secondary);" data-en="sees and shares visions of a better future" data-ru="вижу и транслирую образ лучшего будущего">sees and shares visions of a better future</span>
+        </div>
+        <div style="background:rgba(124,106,250,0.06);border:1px solid rgba(124,106,250,0.15);border-radius:12px;padding:16px 18px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+            <svg style="width:20px;height:20px;stroke:var(--accent-light);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            <strong style="color:#fff;font-size:14px;">Developer</strong>
+          </div>
+          <span style="font-size:13px;color:var(--text-secondary);" data-en="recognizes and cultivates potential in others" data-ru="вижу и развиваю потенциал в людях">recognizes and cultivates potential in others</span>
+        </div>
+        <div style="background:rgba(124,106,250,0.06);border:1px solid rgba(124,106,250,0.15);border-radius:12px;padding:16px 18px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+            <svg style="width:20px;height:20px;stroke:var(--accent-light);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;" viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+            <strong style="color:#fff;font-size:14px;">Adaptability</strong>
+          </div>
+          <span style="font-size:13px;color:var(--text-secondary);" data-en="reacts immediately, positive force for change" data-ru="мгновенная реакция, позитивная сила перемен">reacts immediately, positive force for change</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAIN POINTS -->
+  <div class="pain-section">
+    <div class="card">
+      <div class="section-label"><div class="dash"></div><span data-en="I Can Help If" data-ru="Я могу помочь если">I Can Help If</span></div>
+      <ul class="pain-list">
+        <li data-en="Moving parts everywhere, no one connecting them into one" data-ru="Много движущихся частей, нет человека который соединит их в одно">Moving parts everywhere, no one connecting them into one</li>
+        <li data-en="Strategy lives in your head, not in execution" data-ru="Стратегия есть в голове, но не в execution">Strategy lives in your head, not in execution</li>
+        <li data-en="Team is growing but coordination isn't" data-ru="Команда растёт, а координация — нет">Team is growing but coordination isn't</li>
+        <li data-en="Every quarter starts with 'this time we'll do it differently'" data-ru="Каждый квартал начинается с 'в этот раз сделаем по-другому'">Every quarter starts with "this time we'll do it differently"</li>
+        <li data-en="You feel you need someone next to you but can't write the JD" data-ru="Чувствуешь что нужен кто-то рядом, но не можешь сформулировать JD">You feel you need someone next to you but can't write the JD</li>
+        <li data-en="Decisions happen in a black box" data-ru="Решения принимаются в чёрном ящике">Decisions happen in a black box</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- NOT A FIT -->
+  <div class="notfit-section">
+    <div class="card">
+      <div class="section-label"><div class="dash"></div><span data-en="Not a Fit If" data-ru="Не подойду если">Not a Fit If</span></div>
+      <ul class="pain-list">
+        <li data-en="You need a narrow specialist: marketing only or ops only" data-ru="Нужен узкий специалист: только маркетинг или только ops">You need a narrow specialist: marketing only or ops only</li>
+        <li data-en="Looking for an executor, not a partner" data-ru="Ищете исполнителя, а не партнёра">Looking for an executor, not a partner</li>
+        <li data-en="'Let's try freelance for a month'" data-ru="'Давай попробуем на фрилансе месяц'">"Let's try freelance for a month"</li>
+        <li data-en="No team and no plans to hire" data-ru="Нет команды и не планируете нанимать">No team and no plans to hire</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div class="sub" style="margin-bottom:16px;" data-en="Looking for a full-time role next to a founder / C-level. Title is secondary, ownership is primary. Remote, EU timezone. If this resonates — I'll reply same day." data-ru="Ищу full-time роль рядом с фаундером / C-level. Title вторичен, ownership первичен. Remote, EU timezone. Если резонирует — отвечу в тот же день.">Looking for a full-time role next to a founder / C-level. Title is secondary, ownership is primary. Remote, EU timezone. If this resonates — I'll reply same day.</div>
+    <h2 data-en="Let's Build Something Worthwhile" data-ru="Давай построим что-то стоящее">Let's Build Something Worthwhile</h2>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:24px;">
+      <a href="https://t.me/velvet_slava" class="cta-button" data-en="Message on Telegram &#8599;" data-ru="Написать в TG &#8599;">Message on Telegram &#8599;</a>
+      <a href="https://calendly.com/velvet-slava" class="cta-button" style="background:var(--bg-card);border:1px solid var(--border);box-shadow:none;" data-en="Book a Call" data-ru="Заблокировать встречу">Book a Call</a>
+    </div>
+    <div class="cta-channels" style="margin-top:24px;">
+      <div style="display:flex;gap:16px;justify-content:center;margin-bottom:16px;">
+        <a href="https://t.me/velvet_slava" title="Telegram" style="width:52px;height:52px;border-radius:12px;border:1px solid var(--border);background:var(--bg-card);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);text-decoration:none;transition:all 0.2s;"><svg style="width:24px;height:24px;fill:currentColor;" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.37-.49 1.02-.75 3.99-1.74 6.65-2.89 7.99-3.45 3.8-1.6 4.59-1.88 5.1-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.01.06.01.24 0 .37z"/></svg></a>
+        <a href="mailto:velvet.slava@gmail.com" title="Email" style="width:52px;height:52px;border-radius:12px;border:1px solid var(--border);background:var(--bg-card);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);text-decoration:none;transition:all 0.2s;"><svg style="width:24px;height:24px;fill:currentColor;" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+        <a href="https://linkedin.com/in/slavabarkhatov" title="LinkedIn" style="width:52px;height:52px;border-radius:12px;border:1px solid var(--border);background:var(--bg-card);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);text-decoration:none;transition:all 0.2s;"><svg style="width:24px;height:24px;fill:currentColor;" viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></a>
+        <a href="https://github.com/velvetslava" title="GitHub" style="width:52px;height:52px;border-radius:12px;border:1px solid var(--border);background:var(--bg-card);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);text-decoration:none;transition:all 0.2s;"><svg style="width:24px;height:24px;fill:currentColor;" viewBox="0 0 24 24"><path d="M12 2A10 10 0 002 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/></svg></a>
+      </div>
+      <a href="mailto:velvet.slava@gmail.com">velvet.slava@gmail.com</a> &nbsp;&middot;&nbsp; +353 87 218 8721
+    </div>
+  </div>
+
+</div>
+
+<script>
+function switchLang(lang) {
+  document.querySelectorAll('.lang-toggle button').forEach(btn => btn.classList.remove('active'));
+  document.querySelector(`.lang-toggle button[onclick="switchLang('${lang}')"]`).classList.add('active');
+  document.querySelectorAll('[data-en]').forEach(el => {
+    el.innerHTML = el.getAttribute(`data-${lang}`);
+  });
+}
+switchLang('ru');
+</script>
+</body>
+</html>
