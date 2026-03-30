@@ -205,6 +205,38 @@
     max-width: 720px;
   }
 
+  /* FUNCTIONAL SCOPE */
+  .functional-section {
+    margin-bottom: 48px;
+  }
+
+  .functional-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 16px;
+  }
+
+  .functional-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+
+  .functional-item strong {
+    display: block;
+    font-size: 15px;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .functional-item span {
+    display: block;
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.45;
+  }
+
   /* SECTION LABEL */
   .section-label {
     display: flex;
@@ -466,7 +498,7 @@
     .hero-text h1 { font-size: 36px; }
     .hero-oneliner { max-width: 100%; }
     .hero-contacts { justify-content: center; }
-    .career-grid, .value-grid { grid-template-columns: 1fr; }
+    .career-grid, .value-grid, .functional-grid { grid-template-columns: 1fr; }
     .strengths-grid { grid-template-columns: 1fr; }
     .cta h2 { font-size: 28px; }
     .metrics { gap: 8px; }
@@ -497,7 +529,7 @@
         <span class="sparkle">&#10024;</span>
         <span data-en="Enterprise brain, founder speed" data-ru="Enterprise мозги, founder скорость">Enterprise brain, founder speed</span>
       </div>
-      <div class="hero-oneliner" data-en="Strategy + Ops + Growth in one person." data-ru="Strategy + Ops + Growth в одном человеке.">Strategy + Ops + Growth in one person.</div>
+      <div class="hero-oneliner" data-en="I take a founder's vision and turn it into a working machine in the first 90 days. Strategy, ops, growth — in one person." data-ru="Превращаю vision фаундера в работающий механизм за первые 90 дней. Strategy, ops, growth в одном человеке.">I take a founder's vision and turn it into a working machine in the first 90 days. Strategy, ops, growth — in one person.</div>
       <div class="hero-contacts">
         <a href="https://t.me/velvet_slava" title="Telegram"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.37-.49 1.02-.75 3.99-1.74 6.65-2.89 7.99-3.45 3.8-1.6 4.59-1.88 5.1-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.01.06.01.24 0 .37z"/></svg></a>
         <a href="mailto:velvet.slava@gmail.com" title="Email"><svg class="icon-svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
@@ -524,7 +556,42 @@
   </div>
 
   <!-- PITCH -->
-  <div class="pitch" data-en="12+ years in growth, strategy and operations. Grew up in FMCG and D2C (Mars, L'Oréal, Yandex), then 4.5 years at Google as Accelerated Growth Consultant UK for SaaS, FinTech, D2C, Beauty, Automotive, Retail companies and others. Similar challenge everywhere: came in where there was chaos and too many stakeholders — and through people, teams and processes built a working machine and growth. I know how to build high-performance teams and hold alignment when everything is falling apart." data-ru="12+ лет опыта в growth, strategy и operations. Вырос в FMCG и D2C (Mars, L'Oréal, Яндекс), потом 4,5 года в Google как Accelerated Growth Consultant UK для SaaS, FinTech, D2C, Beauty, Automotive, Retail компаний и других. Везде похожий челлендж: приходил туда где хаос и много стейкхолдеров — и через людей, команды и процессы собирал работающий механизм и growth. Умею строить high-performance команды и держать alignment когда всё разъезжается.">12+ years in growth, strategy and operations. Grew up in FMCG and D2C (Mars, L'Oréal, Yandex), then 4.5 years at Google as Accelerated Growth Consultant UK for SaaS, FinTech, D2C, Beauty, Automotive, Retail companies and others. Similar challenge everywhere: came in where there was chaos and too many stakeholders — and through people, teams and processes built a working machine and growth. I know how to build high-performance teams and hold alignment when everything is falling apart.</div>
+  <div class="pitch" data-en="12 years in growth, strategy and operations. Grew up in FMCG and media services (Mars, L'Oréal, Yandex), then 4 years at Google as accelerated growth consultant for companies in SaaS, FinTech, D2C, Beauty, Automotive. Same story everywhere: came in where there was chaos and too many stakeholders — and through people, teams and processes built a working machine. I know how to build high-performance teams and hold alignment when everything is falling apart." data-ru="12 лет в growth, strategy и operations. вырос в FMCG и медиасервисах (Mars, L'Oréal, Yandex), потом 4 года в google как accelerated growth consultant для компаний из SaaS, FinTech, D2C, Beauty, Automotive. везде одно: приходил туда где хаос и много стейкхолдеров — и через людей, команды и процессы собирал работающий механизм. умею строить high-performance команды и держать alignment когда всё разъезжается.">12 years in growth, strategy and operations. Grew up in FMCG and media services (Mars, L'Oréal, Yandex), then 4 years at Google as accelerated growth consultant for companies in SaaS, FinTech, D2C, Beauty, Automotive. Same story everywhere: came in where there was chaos and too many stakeholders — and through people, teams and processes built a working machine. I know how to build high-performance teams and hold alignment when everything is falling apart.</div>
+
+  <!-- FUNCTIONAL SCOPE -->
+  <div class="functional-section">
+    <div class="section-label" style="margin-bottom:20px;"><div class="dash"></div><span data-en="Functional Scope" data-ru="Функциональные компетенции">Functional Scope</span></div>
+    <div class="functional-grid">
+      <div class="functional-item">
+        <strong data-en="AI-Native Systems" data-ru="AI-Native Systems">AI-Native Systems</strong>
+        <span data-en="Multi-agent workflows on production stack: Claude Code + Cursor + Codex" data-ru="Multi-agent workflows на production-стеке: Claude Code + Cursor + Codex">Multi-agent workflows on production stack: Claude Code + Cursor + Codex</span>
+      </div>
+      <div class="functional-item">
+        <strong data-en="Strategy & Planning" data-ru="Strategy & Planning">Strategy & Planning</strong>
+        <span data-en="Vision, priorities, annual bets, execution cycles" data-ru="Vision, приоритеты, annual bets, execution cycles">Vision, priorities, annual bets, execution cycles</span>
+      </div>
+      <div class="functional-item">
+        <strong data-en="Business Ops" data-ru="Business Ops">Business Ops</strong>
+        <span data-en="Operating rhythm, KPIs, planning, accountability" data-ru="Operating rhythm, KPI, планирование, accountability">Operating rhythm, KPIs, planning, accountability</span>
+      </div>
+      <div class="functional-item">
+        <strong data-en="Growth & GTM" data-ru="Growth & GTM">Growth & GTM</strong>
+        <span data-en="GTM choices, funnel bottlenecks, unit economics, commercial focus" data-ru="GTM, bottlenecks воронки, unit economics, commercial focus">GTM choices, funnel bottlenecks, unit economics, commercial focus</span>
+      </div>
+      <div class="functional-item">
+        <strong data-en="Brand & Strategic Marketing" data-ru="Brand & Strategic Marketing">Brand & Strategic Marketing</strong>
+        <span data-en="Positioning, portfolio choices, innovation, consumer insight, strategic marketing" data-ru="Позиционирование, portfolio choices, innovation, consumer insight, strategic marketing">Positioning, portfolio choices, innovation, consumer insight, strategic marketing</span>
+      </div>
+      <div class="functional-item">
+        <strong data-en="Founder Support" data-ru="Founder Support">Founder Support</strong>
+        <span data-en="Strategy sessions, decision framing, cross-functional follow-through" data-ru="Стратсессии, decision framing, cross-functional follow-through">Strategy sessions, decision framing, cross-functional follow-through</span>
+      </div>
+      <div class="functional-item">
+        <strong data-en="Org & Teams" data-ru="Org & Teams">Org & Teams</strong>
+        <span data-en="Team structure, hiring, org design, high-performance collaboration" data-ru="Структура команды, найм, org design, high-performance collaboration">Team structure, hiring, org design, high-performance collaboration</span>
+      </div>
+    </div>
+  </div>
 
   <!-- CAREER -->
   <div class="section-label" style="margin-bottom:20px;"><div class="dash"></div><span data-en="Experience" data-ru="Опыт">Experience</span></div>
@@ -567,11 +634,11 @@
   </div>
 
   <!-- VALUE CARDS -->
-  <div class="section-label" style="margin-bottom:20px;"><div class="dash"></div><span data-en="What I Do Best" data-ru="Что я делаю лучше всего">What I Do Best</span></div>
+  <div class="section-label" style="margin-bottom:20px;"><div class="dash"></div><span data-en="What I Do Best" data-ru="Где у меня strongest edge">What I Do Best</span></div>
   <div class="value-grid">
     <div class="card value-card">
       <strong data-en="Big Picture → Action" data-ru="Большая картина → конкретика">Big Picture → Action</strong>
-      <span data-en="See the whole picture, translate into roadmap, tasks and delivery" data-ru="Вижу целиком, перевожу в roadmap, задачи и delivery">See the whole picture, translate into roadmap, tasks and delivery</span>
+      <span data-en="See the whole picture, translate it into roadmap, tasks and delivery" data-ru="Вижу целиком, перевожу в roadmap, задачи и delivery">See the whole picture, translate it into roadmap, tasks and delivery</span>
     </div>
     <div class="card value-card">
       <strong data-en="Chaos → System" data-ru="Хаос → система">Chaos → System</strong>
@@ -579,7 +646,7 @@
     </div>
     <div class="card value-card">
       <strong data-en="Stakeholder Alignment" data-ru="Stakeholder Alignment">Stakeholder Alignment</strong>
-      <span data-en="Bridge between founder, team, board and partners. Remove friction" data-ru="Мосты между фаундером, командой, бордом и партнёрами. Убираю friction">Bridge between founder, team, board and partners. Remove friction</span>
+      <span data-en="Bridge between founder, team, board and partners. Remove friction" data-ru="Навожу мосты между фаундером, командой, бордом и партнёрами. Убираю friction">Bridge between founder, team, board and partners. Remove friction</span>
     </div>
     <div class="card value-card">
       <strong data-en="Growth Engine" data-ru="Growth Engine">Growth Engine</strong>
@@ -587,11 +654,11 @@
     </div>
     <div class="card value-card">
       <strong data-en="Team Leadership" data-ru="Team Leadership">Team Leadership</strong>
-      <span data-en="Build high-performance teams from scattered functions. This is what I do best" data-ru="Строю high-performance команды из разрозненных функций. Это лучшее что я делаю">Build high-performance teams from scattered functions. This is what I do best</span>
+      <span data-en="Build high-performance teams from scattered functions. Hire, set the rhythm, hold the bar. This is what I do best" data-ru="Строю high-performance команды из разрозненных функций. Нанимаю, выстраиваю ритм, держу планку. Это то, что у меня получается лучше всего">Build high-performance teams from scattered functions. Hire, set the rhythm, hold the bar. This is what I do best</span>
     </div>
     <div class="card value-card">
       <strong data-en="AI-Native Operations" data-ru="AI-Native Operations">AI-Native Operations</strong>
-      <span data-en="Multi-agentic integrated workflows built on AI stack: Claude Code + Cursor + Codex" data-ru="Multi-agentic integrated workflows на AI-стеке: Claude Code + Cursor + Codex">Multi-agentic integrated workflows built on AI stack: Claude Code + Cursor + Codex</span>
+      <span data-en="Multi-agent workflows on production stack: Claude Code + Cursor + Codex. Automated reporting, research pipelines, decision support. This is my working infrastructure." data-ru="Multi-agent workflows на production-стеке: Claude Code + Cursor + Codex. Automated reporting, research pipelines, decision support. Это моя рабочая инфраструктура.">Multi-agent workflows on production stack: Claude Code + Cursor + Codex. Automated reporting, research pipelines, decision support. This is my working infrastructure.</span>
     </div>
   </div>
 
