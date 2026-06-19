@@ -239,7 +239,7 @@
     <h2>как откликнуться</h2>
     <ul style="margin-bottom:0;">
       <li>напиши коротко: почему vahue и почему эта роль откликается — и пару слов про себя</li>
-      <li><strong>1–2 конкретных примера ивентов (оффлайн и онлайн)</strong>, которые ты проводил и довёл до результата</li>
+      <li><strong>1–2 примера ивентов</strong>, которые ты проводил или организовывал, и какие были результаты</li>
       <li>оставь email и/или telegram для связи</li>
     </ul>
   </div>
@@ -260,8 +260,8 @@
         <textarea name="why" rows="4" required placeholder="коротко"></textarea>
       </div>
       <div class="field">
-        <label>1–2 ссылки на ивенты (оффлайн / онлайн), которые ты проводил и довёл до результата</label>
-        <textarea name="links" rows="2" placeholder="ссылки или описание"></textarea>
+        <label>1–2 примера ивентов, которые ты проводил или организовывал, и какие были результаты</label>
+        <textarea name="links" rows="3" placeholder="что за ивент, твоя роль, результат"></textarea>
       </div>
       <div class="field">
         <label>резюме / портфолио / сопроводительные — ссылка</label>
@@ -281,7 +281,7 @@
         'Имя: ' + f.name.value + '\n' +
         'Контакт: ' + f.contact.value + '\n\n' +
         'Почему vahue / о себе:\n' + f.why.value + '\n\n' +
-        'Ссылки на ивенты:\n' + (f.links.value || '—') + '\n\n' +
+        'Примеры ивентов (роль + результат):\n' + (f.links.value || '—') + '\n\n' +
         'Резюме / портфолио / материалы:\n' + (f.materials.value || '—')
       );
       window.location.href = 'mailto:velvet.slava@gmail.com?subject=' + subj + '&body=' + body;
