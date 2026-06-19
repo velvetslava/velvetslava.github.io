@@ -246,46 +246,42 @@
 
   <div class="form-wrap">
     <h2>оставить заявку</h2>
-    <form id="applyForm" onsubmit="return sendApp(event)">
+    <div id="okBanner" style="display:none; background:#EAF1EA; border:1px solid #C5D6C5; color:#2F5B3F; border-radius:10px; padding:14px 16px; margin-bottom:16px; font-weight:600;">спасибо — заявка отправлена. свяжемся.</div>
+    <form id="applyForm" action="https://formsubmit.co/velvet.slava@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="Operations Assistant — новый отклик">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="https://velvetslava.github.io/careers/operations-assistant/?ok=1">
+      <input type="text" name="_honey" style="display:none">
       <div class="field">
         <label>как тебя зовут</label>
-        <input type="text" name="name" required placeholder="имя">
+        <input type="text" name="Имя" required placeholder="имя">
       </div>
       <div class="field">
         <label>telegram или email для связи</label>
-        <input type="text" name="contact" required placeholder="@username или mail@example.com">
+        <input type="text" name="Контакт" required placeholder="@username или mail@example.com">
       </div>
       <div class="field">
         <label>почему vahue и почему эта роль — пару слов о себе</label>
-        <textarea name="why" rows="4" required placeholder="коротко"></textarea>
+        <textarea name="Почему vahue и о себе" rows="4" required placeholder="коротко"></textarea>
       </div>
       <div class="field">
         <label>1–2 примера ивентов, которые ты проводил или организовывал, и какие были результаты</label>
-        <textarea name="links" rows="3" placeholder="что за ивент, твоя роль, результат"></textarea>
+        <textarea name="Примеры ивентов (роль + результат)" rows="3" placeholder="что за ивент, твоя роль, результат"></textarea>
       </div>
       <div class="field">
         <label>резюме / портфолио / сопроводительные — ссылка</label>
-        <input type="text" name="materials" placeholder="Google Drive, Dropbox, Notion, PDF…">
+        <input type="text" name="Резюме/портфолио (ссылка)" placeholder="Google Drive, Dropbox, Notion, PDF…">
       </div>
       <button type="submit" class="submit-btn">откликнуться →</button>
     </form>
-    <div class="form-foot">файл прикрепляй ссылкой (Google Drive / Dropbox). кнопка откроет письмо с уже заполненным текстом — просто отправь и приложи файлы там, если хочешь. или напиши напрямую: <a href="mailto:velvet.slava@gmail.com">velvet.slava@gmail.com</a> · <a href="https://t.me/velvet_slava">@velvet_slava</a></div>
+    <div class="form-foot">файл прикрепляй ссылкой (Google Drive / Dropbox). или напиши напрямую: <a href="mailto:velvet.slava@gmail.com">velvet.slava@gmail.com</a> · <a href="https://t.me/velvet_slava">@velvet_slava</a></div>
   </div>
 
   <script>
-    function sendApp(e){
-      e.preventDefault();
-      var f = e.target;
-      var subj = encodeURIComponent('Operations Assistant — отклик: ' + f.name.value);
-      var body = encodeURIComponent(
-        'Имя: ' + f.name.value + '\n' +
-        'Контакт: ' + f.contact.value + '\n\n' +
-        'Почему vahue / о себе:\n' + f.why.value + '\n\n' +
-        'Примеры ивентов (роль + результат):\n' + (f.links.value || '—') + '\n\n' +
-        'Резюме / портфолио / материалы:\n' + (f.materials.value || '—')
-      );
-      window.location.href = 'mailto:velvet.slava@gmail.com?subject=' + subj + '&body=' + body;
-      return false;
+    if (new URLSearchParams(location.search).get('ok') === '1') {
+      var b = document.getElementById('okBanner');
+      if (b) { b.style.display = 'block'; b.scrollIntoView({behavior:'smooth', block:'center'}); }
     }
   </script>
 
