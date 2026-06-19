@@ -263,9 +263,13 @@
         <label>1–2 ссылки на ивенты (оффлайн / онлайн), которые ты проводил и довёл до результата</label>
         <textarea name="links" rows="2" placeholder="ссылки или описание"></textarea>
       </div>
+      <div class="field">
+        <label>резюме / портфолио / сопроводительные — ссылка</label>
+        <input type="text" name="materials" placeholder="Google Drive, Dropbox, Notion, PDF…">
+      </div>
       <button type="submit" class="submit-btn">откликнуться →</button>
     </form>
-    <div class="form-foot">кнопка откроет письмо с уже заполненным текстом — просто отправь. или напиши напрямую: <a href="mailto:velvet.slava@gmail.com">velvet.slava@gmail.com</a> · <a href="https://t.me/velvet_slava">@velvet_slava</a></div>
+    <div class="form-foot">файл прикрепляй ссылкой (Google Drive / Dropbox). кнопка откроет письмо с уже заполненным текстом — просто отправь и приложи файлы там, если хочешь. или напиши напрямую: <a href="mailto:velvet.slava@gmail.com">velvet.slava@gmail.com</a> · <a href="https://t.me/velvet_slava">@velvet_slava</a></div>
   </div>
 
   <script>
@@ -277,7 +281,8 @@
         'Имя: ' + f.name.value + '\n' +
         'Контакт: ' + f.contact.value + '\n\n' +
         'Почему vahue / о себе:\n' + f.why.value + '\n\n' +
-        'Ссылки на ивенты:\n' + (f.links.value || '—')
+        'Ссылки на ивенты:\n' + (f.links.value || '—') + '\n\n' +
+        'Резюме / портфолио / материалы:\n' + (f.materials.value || '—')
       );
       window.location.href = 'mailto:velvet.slava@gmail.com?subject=' + subj + '&body=' + body;
       return false;
