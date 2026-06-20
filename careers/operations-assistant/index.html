@@ -246,8 +246,12 @@
 
   <div class="form-wrap">
     <h2>оставить заявку</h2>
-    <div id="formMsg" style="display:none; border-radius:10px; padding:14px 16px; margin-bottom:16px; font-weight:600;"></div>
-    <form id="applyForm">
+    <div id="okBanner" style="display:none; background:#EAF1EA; border:1px solid #C5D6C5; color:#2F5B3F; border-radius:10px; padding:14px 16px; margin-bottom:16px; font-weight:600;">спасибо — заявка отправлена. свяжемся.</div>
+    <form action="https://formsubmit.co/velvet.slava@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="Operations Assistant — новый отклик">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="https://velvetslava.github.io/careers/operations-assistant/?ok=1">
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
       <div class="field">
         <label>как тебя зовут</label>
@@ -275,45 +279,10 @@
   </div>
 
   <script>
-    (function(){
-      var form = document.getElementById('applyForm');
-      var msg = document.getElementById('formMsg');
-      var btn = form.querySelector('button[type=submit]');
-      function show(ok, text){
-        msg.style.display = 'block';
-        msg.style.background = ok ? '#EAF1EA' : '#FBEDED';
-        msg.style.border = '1px solid ' + (ok ? '#C5D6C5' : '#D9B49C');
-        msg.style.color = ok ? '#2F5B3F' : '#8B2D2D';
-        msg.innerHTML = text;
-        msg.scrollIntoView({behavior:'smooth', block:'center'});
-      }
-      form.addEventListener('submit', function(e){
-        e.preventDefault();
-        if (form._honey.value) return; // bot trap
-        var data = {};
-        new FormData(form).forEach(function(v,k){ if(k!=='_honey') data[k]=v; });
-        data['_subject'] = 'Operations Assistant — новый отклик: ' + (data['Имя']||'');
-        data['_template'] = 'table';
-        data['_captcha'] = 'false';
-        btn.disabled = true; var orig = btn.textContent; btn.textContent = 'отправляю…';
-        fetch('https://formsubmit.co/ajax/velvet.slava@gmail.com', {
-          method: 'POST',
-          headers: {'Content-Type':'application/json','Accept':'application/json'},
-          body: JSON.stringify(data)
-        })
-        .then(function(r){ return r.json(); })
-        .then(function(j){
-          if (j && (j.success === 'true' || j.success === true)) {
-            form.style.display = 'none';
-            show(true, 'спасибо — заявка отправлена. свяжемся.');
-          } else { throw new Error('formsubmit'); }
-        })
-        .catch(function(){
-          btn.disabled = false; btn.textContent = orig;
-          show(false, 'не удалось отправить. напиши напрямую: <a href="mailto:velvet.slava@gmail.com" style="color:#8B2D2D;font-weight:700;">velvet.slava@gmail.com</a> или <a href="https://t.me/velvet_slava" style="color:#8B2D2D;font-weight:700;">@velvet_slava</a>');
-        });
-      });
-    })();
+    if (new URLSearchParams(location.search).get('ok') === '1') {
+      var b = document.getElementById('okBanner');
+      if (b) { b.style.display = 'block'; b.scrollIntoView({behavior:'smooth', block:'center'}); }
+    }
   </script>
 
   <div class="meta">
