@@ -243,61 +243,14 @@
       <li>оставь email и/или telegram для связи</li>
     </ul>
   </div>
-
   <div class="form-wrap">
     <h2>оставить заявку</h2>
-    <div id="okBanner" style="display:none; background:#EAF1EA; border:1px solid #C5D6C5; color:#2F5B3F; border-radius:10px; padding:14px 16px; margin-bottom:16px; font-weight:600;">спасибо — заявка отправлена. свяжемся.</div>
-    <form id="applyForm">
-      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
-      <div class="field">
-        <label>как тебя зовут</label>
-        <input type="text" name="Имя" required placeholder="имя">
-      </div>
-      <div class="field">
-        <label>telegram или email для связи</label>
-        <input type="text" name="Контакт" required placeholder="@username или mail@example.com">
-      </div>
-      <div class="field">
-        <label>почему vahue и почему эта роль — пару слов о себе</label>
-        <textarea name="Почему vahue и о себе" rows="4" required placeholder="коротко"></textarea>
-      </div>
-      <div class="field">
-        <label>1–2 примера ивентов, которые ты проводил или организовывал, и какие были результаты</label>
-        <textarea name="Примеры ивентов" rows="3" placeholder="что за ивент, твоя роль, результат"></textarea>
-      </div>
-      <div class="field">
-        <label>резюме / портфолио / сопроводительные — ссылка</label>
-        <input type="text" name="Резюме портфолио ссылка" placeholder="Google Drive, Dropbox, Notion, PDF…">
-      </div>
-      <button type="submit" class="submit-btn">откликнуться →</button>
-    </form>
-    <div class="form-foot">файл прикрепляй ссылкой (Google Drive / Dropbox). или напиши напрямую: <a href="mailto:velvet.slava@gmail.com">velvet.slava@gmail.com</a> · <a href="https://t.me/velvet_slava">@velvet_slava</a></div>
+    <iframe
+      src="https://docs.google.com/forms/d/e/1FAIpQLSdrf_csv7WT0Ue731qA9lNTVKhimbc9c92xT2zbCGcG8amY1w/viewform?embedded=true"
+      width="100%" height="1500" frameborder="0" marginheight="0" marginwidth="0"
+      style="border:0; background:transparent;" title="VAHUE — отклик Operations Assistant">загрузка…</iframe>
+    <div class="form-foot">не грузится форма? напиши напрямую: <a href="mailto:velvet.slava@gmail.com">velvet.slava@gmail.com</a> · <a href="https://t.me/velvet_slava">@velvet_slava</a></div>
   </div>
-
-  <script>
-    // ↓↓↓ ВСТАВЬ СЮДА URL веб-приложения Apps Script (после Deploy) ↓↓↓
-    var FORM_ENDPOINT = "https://careers-intake.vercel.app/api/apply";
-
-    var form = document.getElementById('applyForm');
-    var banner = document.getElementById('okBanner');
-    form.addEventListener('submit', function (ev) {
-      ev.preventDefault();
-      var btn = form.querySelector('.submit-btn');
-      var old = btn.textContent;
-      btn.disabled = true; btn.textContent = 'отправляю…';
-      var data = new URLSearchParams(new FormData(form));
-      fetch(FORM_ENDPOINT, { method: 'POST', mode: 'no-cors', body: data })
-        .then(function () {
-          form.reset();
-          if (banner) { banner.style.display = 'block'; banner.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-          btn.textContent = 'отправлено ✓';
-        })
-        .catch(function () {
-          btn.disabled = false; btn.textContent = old;
-          alert('не отправилось — напиши напрямую @velvet_slava или velvet.slava@gmail.com');
-        });
-    });
-  </script>
 
   <div class="meta">
     <span>vahue · operations assistant</span>
