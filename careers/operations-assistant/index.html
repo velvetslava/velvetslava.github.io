@@ -247,11 +247,7 @@
   <div class="form-wrap">
     <h2>оставить заявку</h2>
     <div id="okBanner" style="display:none; background:#EAF1EA; border:1px solid #C5D6C5; color:#2F5B3F; border-radius:10px; padding:14px 16px; margin-bottom:16px; font-weight:600;">спасибо — заявка отправлена. свяжемся.</div>
-    <form action="https://formsubmit.co/velvet.slava@gmail.com" method="POST">
-      <input type="hidden" name="_subject" value="Operations Assistant — новый отклик">
-      <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://velvetslava.github.io/careers/operations-assistant/?ok=1">
+    <form id="applyForm">
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
       <div class="field">
         <label>как тебя зовут</label>
@@ -279,10 +275,28 @@
   </div>
 
   <script>
-    if (new URLSearchParams(location.search).get('ok') === '1') {
-      var b = document.getElementById('okBanner');
-      if (b) { b.style.display = 'block'; b.scrollIntoView({behavior:'smooth', block:'center'}); }
-    }
+    // ↓↓↓ ВСТАВЬ СЮДА URL веб-приложения Apps Script (после Deploy) ↓↓↓
+    var FORM_ENDPOINT = "https://careers-intake.vercel.app/api/apply";
+
+    var form = document.getElementById('applyForm');
+    var banner = document.getElementById('okBanner');
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var btn = form.querySelector('.submit-btn');
+      var old = btn.textContent;
+      btn.disabled = true; btn.textContent = 'отправляю…';
+      var data = new URLSearchParams(new FormData(form));
+      fetch(FORM_ENDPOINT, { method: 'POST', mode: 'no-cors', body: data })
+        .then(function () {
+          form.reset();
+          if (banner) { banner.style.display = 'block'; banner.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+          btn.textContent = 'отправлено ✓';
+        })
+        .catch(function () {
+          btn.disabled = false; btn.textContent = old;
+          alert('не отправилось — напиши напрямую @velvet_slava или velvet.slava@gmail.com');
+        });
+    });
   </script>
 
   <div class="meta">
