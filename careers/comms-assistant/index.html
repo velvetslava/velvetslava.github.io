@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VAHUE — Communication Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FDF6EC; --paper:#FFFCF6; --ink:#1A1814; --ink-soft:#4A443B; --ink-fade:#8A8275;
+    --line:#E7DDCB; --accent:#9A4E1F; --accent-soft:#F3E2D7; --green:#2F5B3F;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family:'Inter',sans-serif; font-size:16px; line-height:1.62;
+    -webkit-font-smoothing:antialiased; padding:40px 20px;
+  }
+  .doc{
+    max-width:740px; margin:0 auto; background:var(--paper);
+    border:1px solid var(--line); border-radius:18px;
+    padding:60px 64px; box-shadow:0 24px 60px -30px rgba(60,40,20,0.22);
+  }
+
+  /* header */
+  .brand{
+    font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:600;
+    letter-spacing:0.32em; text-transform:uppercase; color:var(--accent);
+  }
+  h1{
+    font-family:'Newsreader',serif; font-weight:500; font-size:54px;
+    line-height:1.02; letter-spacing:-0.01em; margin:10px 0 6px;
+  }
+  .subline{
+    font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--ink-fade);
+    letter-spacing:0.08em; text-transform:uppercase;
+  }
+  .rule{height:1px; background:var(--line); border:0; margin:38px 0;}
+
+  /* sections */
+  h2{
+    font-family:'Inter',sans-serif; font-weight:700; font-size:13px;
+    letter-spacing:0.16em; text-transform:uppercase; color:var(--accent);
+    margin:0 0 16px;
+  }
+  p{margin:0 0 15px;}
+  strong{font-weight:700; color:var(--ink);}
+  .lead strong{color:var(--accent);}
+
+  ul{margin:0 0 15px; padding:0; list-style:none;}
+  li{position:relative; padding-left:22px; margin-bottom:9px;}
+  li::before{content:'→'; position:absolute; left:0; color:var(--accent); font-weight:600;}
+
+  /* numbered zones */
+  .sys{
+    border:1px solid var(--line); border-radius:14px; padding:22px 24px;
+    margin-bottom:14px; background:var(--cream);
+  }
+  .sys-head{display:flex; align-items:baseline; gap:12px; margin-bottom:12px; flex-wrap:wrap;}
+  .sys-n{
+    font-family:'Newsreader',serif; font-size:30px; font-weight:500;
+    color:var(--accent); line-height:1; min-width:30px;
+  }
+  .sys-ttl{font-weight:700; font-size:16.5px; letter-spacing:-0.005em;}
+  .sys .intro{color:var(--ink-soft); font-size:14.5px; margin-bottom:11px;}
+  .sys ul{margin-bottom:0;}
+  .sys li{font-size:14.5px;}
+  .tier{font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-fade); margin:4px 0 12px;}
+  .tier span{color:var(--accent);}
+
+  /* 30/60/90 */
+  .phase{display:flex; gap:18px; margin-bottom:16px;}
+  .phase-n{
+    font-family:'JetBrains Mono',monospace; font-weight:600; font-size:13px;
+    color:#fff; background:var(--accent); border-radius:8px;
+    padding:5px 11px; height:fit-content; letter-spacing:0.05em; white-space:nowrap;
+  }
+  .phase-body{font-size:14.5px; color:var(--ink-soft);}
+  .phase-body strong{color:var(--ink);}
+
+  /* offer + apply boxes */
+  .box{
+    background:var(--accent-soft); border:1px solid #E3C7B4; border-radius:14px;
+    padding:26px 28px; margin:6px 0;
+  }
+  .box h2{color:var(--accent);}
+  .box ul li::before{content:'✦'; font-size:12px; top:1px;}
+  .box.apply{background:var(--ink); border-color:var(--ink);}
+  .box.apply h2{color:#E9B894;}
+  .box.apply p{color:#F1E9DD; margin:0;}
+  .box.apply li{color:#F1E9DD;}
+  .box.apply li::before{color:#E9B894;}
+  .box.apply strong{color:#fff;}
+
+  .meta{
+    margin-top:40px; padding-top:20px; border-top:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-fade);
+    letter-spacing:0.04em; display:flex; flex-wrap:wrap; gap:8px 22px;
+  }
+
+  /* apply form */
+  .form-wrap{margin-top:14px; background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:26px 28px;}
+  .form-wrap h2{color:var(--accent);}
+  .field{margin-bottom:14px;}
+  .field label{display:block; font-size:13px; font-weight:600; color:var(--ink-soft); margin-bottom:6px;}
+  .field input, .field textarea{
+    width:100%; font-family:'Inter',sans-serif; font-size:15px; color:var(--ink);
+    background:var(--cream); border:1px solid var(--line); border-radius:9px;
+    padding:11px 13px; outline:none; transition:border-color .15s; resize:vertical;
+  }
+  .field input:focus, .field textarea:focus{border-color:var(--accent);}
+  .submit-btn{
+    font-family:'Inter',sans-serif; font-size:15px; font-weight:700; color:#fff;
+    background:var(--accent); border:0; border-radius:10px; padding:13px 26px;
+    cursor:pointer; transition:opacity .15s; margin-top:2px;
+  }
+  .submit-btn:hover{opacity:.88;}
+  .form-foot{margin-top:14px; font-size:13px; color:var(--ink-fade);}
+  .form-foot a{color:var(--accent); text-decoration:none; font-weight:600;}
+  .cta-btn{display:inline-block; font-family:'Inter',sans-serif; font-size:15px; font-weight:700; color:#fff; background:var(--accent); border-radius:10px; padding:13px 22px; text-decoration:none; transition:opacity .15s;}
+  .cta-btn:hover{opacity:.88;}
+  .cta-btn.alt{background:var(--ink);}
+
+  @media(max-width:560px){
+    body{padding:14px 0;}
+    .doc{padding:36px 24px; border-radius:0; border-left:0; border-right:0;}
+    h1{font-size:38px;}
+  }
+  @media print{
+    body{background:#fff; padding:0;}
+    .doc{box-shadow:none; border:0; max-width:100%; padding:24px 0;}
+    .sys,.box{break-inside:avoid;}
+    .form-wrap{display:none;}
+  }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <div class="brand">vahue · вакансия</div>
+  <h1>Communication Assistant</h1>
+  <div class="subline">фикс · fully remote · global · роль на вырост</div>
+
+  <hr class="rule">
+
+  <h2>о vahue</h2>
+  <p class="lead">vahue — компания по интегральному развитию человека. наша миссия — <strong>uplift consciousness, integrally</strong>. ретриты и experiences — это ядро сегодня, но мы строим систему, которая ведёт человека целиком: оффлайн и онлайн.</p>
+  <p>в основе — подход реального, интегрального развития. вдохновляемся Кеном Уилбером и Марком Гафни.</p>
+  <p>в центре опыта — живое совместное проживание: контакт, телесность, глубина и joy of life. это не разовые события — это точки возвращения, контейнеры, в которые люди входят снова и снова. вокруг этого естественно растёт сильное комьюнити.</p>
+  <p>сейчас vahue — устойчивый проект: регулярные ретриты по миру, люди возвращаются. следующий этап — чтобы за магией опыта стоял такой же сильный <strong>голос</strong>: чтобы то, что мы проживаем, доходило до людей и несло реальную пользу. продукт всегда первичен: мы выбираем качество, а не рост любой ценой.</p>
+
+  <hr class="rule">
+
+  <h2>роль</h2>
+  <p>ищем <strong>communication assistant</strong>. это <strong>максимально hands-on роль</strong>: не стратегировать с высоты, а делать руками — писать, верстать, постить, собирать контент из живого материала ретритов.</p>
+  <p>мы три года делаем по-настоящему сильные ивенты — и хотим так же сильно о них рассказывать и нести через коммуникацию реальную пользу. ты делаешь это руками и постепенно забираешь на себя всё больше: производство контента, каналы и ритм, комьюнити, работу с блогерами, подкаст — и сами смыслы. чем больше тянешь — тем больше ответственности. роль создана, чтобы расти вместе с компанией.</p>
+  <p>это роль человека <strong>внутри опыта vahue</strong>: ты сам бы ездил на эти ретриты и считал это частью своей жизни. из этого участия рождается чувство — что и как стоит рассказывать.</p>
+  <p>ты не один: <strong>есть ресурсы</strong> — можешь привлекать монтажёров и подрядчиков там, где нужно. мы стартап — закатываем рукава, границы ролей гибкие, помогаем друг другу.</p>
+
+  <hr class="rule">
+
+  <h2>чем ты занимаешься — зоны</h2>
+  <p>коммуникация vahue на тебе целиком — на двух уровнях. <strong>руками</strong>: производишь контент, ведёшь каналы, греешь комьюнити, владеешь подкастом. <strong>головой</strong>: участвуешь в смыслах и стратегии — наравне, не на вырост.</p>
+
+  <div class="tier"><span>руками</span> · делаешь сам</div>
+
+  <div class="sys">
+    <div class="sys-head"><div class="sys-n">1</div><div class="sys-ttl">производство контента</div></div>
+    <div class="intro">copy и визуал в одних руках — от смысла до готового ассета.</div>
+    <ul>
+      <li>карусели — анонсы и смысловые: текст → верстка по шаблонам → кроп → экспорт</li>
+      <li>посты и рассылки в telegram, сторис, подписи под каналы</li>
+      <li>обучающий и полезный контент — практики, разборы, образовательные форматы (то, что люди сохраняют)</li>
+      <li>лёгкие ассеты: сертификаты, one-pager'ы, врезки</li>
+      <li>пишешь чисто, живо, по-человечески — без AI-привкуса и в бренд-тоне</li>
+    </ul>
+  </div>
+
+  <div class="sys">
+    <div class="sys-head"><div class="sys-n">2</div><div class="sys-ttl">каналы и ритм</div></div>
+    <div class="intro">владеешь всеми каналами коммуникации и тем, как мы работаем с каждым.</div>
+    <ul>
+      <li>владеешь каналами: <strong>instagram, telegram, бот, CRM</strong> — понимаешь и задаёшь, как мы работаем с каждым</li>
+      <li>ведёшь контент-календарь и медиаплан — чтобы контент выходил системно, а не рывками</li>
+      <li>постинг и планирование по всем каналам</li>
+      <li>drumbeat: регулярные анонсы созвонов и launch-секвенции под ретриты</li>
+      <li>витрины партнёров (white-label) — раскатка</li>
+    </ul>
+  </div>
+
+  <div class="sys">
+    <div class="sys-head"><div class="sys-n">3</div><div class="sys-ttl">комьюнити · входящие · блогеры</div></div>
+    <div class="intro">тёплый контакт с аудиторией и партнёрами.</div>
+    <ul>
+      <li>ответы в DM и комментах, входящие → нужному человеку</li>
+      <li>сбор отзывов → в базу, с разрешениями на использование</li>
+      <li>конвейер с блогерами: подарок → follow-up → трекинг → закрытие</li>
+    </ul>
+  </div>
+
+  <div class="sys">
+    <div class="sys-head"><div class="sys-n">4</div><div class="sys-ttl">подкаст · медиа-ассеты</div></div>
+    <div class="intro">это полностью твоё — ты владеешь процессом от и до.</div>
+    <ul>
+      <li>подкаст: ведёшь выход эпизодов по процессу, координируешь монтажёров, собираешь data-pack</li>
+      <li>нарезка клипов, сборка эпизодов под каналы</li>
+      <li>voiceover и видео-ассеты по готовым скриптам</li>
+    </ul>
+  </div>
+
+  <div class="tier" style="margin-top:24px;"><span>головой</span> · участвуешь наравне</div>
+
+  <div class="sys">
+    <div class="sys-head"><div class="sys-n">5</div><div class="sys-ttl">смыслы, стратегия, процессы</div></div>
+    <div class="intro">не на вырост — часть роли с первого дня: что и зачем мы говорим.</div>
+    <ul>
+      <li>помогаешь формулировать смысл — что мы хотим сказать</li>
+      <li>помогаешь собирать коммуникационную стратегию</li>
+      <li>помогаешь с educational и новыми типами контента</li>
+      <li>участвуешь в формировании процессов внутри коммуникации</li>
+    </ul>
+  </div>
+
+  <hr class="rule">
+
+  <h2>что важно</h2>
+  <ul>
+    <li><strong>готовность делать руками.</strong> берёшь смысл и доводишь до опубликованного ассета, не ждёшь, пока всё разжуют. за плечами уже что-то сделал.</li>
+    <li><strong>сильный копирайт.</strong> пишешь чисто, живо, по-человечески, ловишь tone of voice.</li>
+    <li><strong>визуальный вкус.</strong> верстаешь карусели и сторис по шаблонам (figma / html), базовый дизайн на ты.</li>
+    <li><strong>чувство смысла.</strong> отличаешь живое от шума, видишь, что реально цепляет.</li>
+    <li><strong>strategic thinking</strong> — понимаешь, как устроены коммуникационные стратегии, и умеешь с ними работать.</li>
+    <li><strong>AI-first.</strong> команда работает AI-first, на ты с инструментами. не умеешь — научим, важна готовность.</li>
+    <li><strong>организованность.</strong> держишь календарь и детали, ничего не теряешь, доводишь до конца.</li>
+    <li><strong>английский</strong> на рабочем уровне — аудитория и партнёры международные.</li>
+  </ul>
+  <p style="font-size:14px; color:var(--ink-fade); margin-top:-4px;">присутствие на ретритах помогает ловить живой материал — роль в основном remote, но ездить захочется.</p>
+
+  <hr class="rule">
+
+  <h2>первые 30 / 60 / 90 дней</h2>
+  <div class="phase">
+    <div class="phase-n">30</div>
+    <div class="phase-body">погружаешься в бренд, голос и продукт — как мы говорим и почему, проживаешь наш контент-процесс изнутри. <strong>сразу подключаешься к контенту осенних запусков</strong> (горит прямо сейчас), забираешь производство по одному продукту на себя.</div>
+  </div>
+  <div class="phase">
+    <div class="phase-n">60</div>
+    <div class="phase-body">берёшь контент-календарь целиком, ведёшь drumbeat и launch-секвенции. запускаешь конвейер с блогерами по одному ретриту, забираешь подкаст. собираешь отзывы → в базу.</div>
+  </div>
+  <div class="phase">
+    <div class="phase-n">90</div>
+    <div class="phase-body">самостоятельно ведёшь производство по всем продуктам и каналам, владеешь подкастом. помогаешь держать коммуникационную стратегию, смыслы и процессы.</div>
+  </div>
+
+  <hr class="rule">
+
+  <h2>как ты работаешь</h2>
+  <p>это про делать, а не надзирать. написать пост, сверстать карусель руками, ответить в DM, нарезать клип — ты делаешь это сам, привлекая ресурсы там, где нужно. живой результат и доведение до публикации важнее красивых процессов на бумаге.</p>
+  <p style="margin-bottom:0;">ты не редактор, который раздаёт задачи, — ты сам берёшь смысл и превращаешь его в контент, а из контента помогаешь собирать стратегию. чем больше берёшь — тем больше растёшь.</p>
+
+  <hr class="rule">
+
+  <div class="box">
+    <h2>что мы предлагаем</h2>
+    <ul style="margin-bottom:0;">
+      <li>формат оплаты — <strong>фикс</strong> (детали обсудим лично)</li>
+      <li><strong>fully remote · global</strong> — и возможность самому проживать наши ивенты по всему миру</li>
+      <li>работу над миссией, в которую мы по-настоящему верим (<strong>uplift consciousness, integrally</strong>), в команде людей, которые живут этой миссией и горят своим делом</li>
+      <li>роль на вырост — забираешь больше по мере того, как тянешь, и растёшь вместе с компанией</li>
+      <li>возможность стать частью невероятно вдохновляющего комьюнити</li>
+    </ul>
+  </div>
+
+  <div class="box apply" style="margin-top:14px;">
+    <h2>как откликнуться</h2>
+    <ul style="margin-bottom:0;">
+      <li>напиши коротко: почему vahue и почему эта роль откликается — и пару слов про себя</li>
+      <li><strong>1–2 примера контента или кампаний</strong>, которые ты делал, и какие были результаты — со ссылками на работы</li>
+      <li>оставь email и/или telegram для связи</li>
+    </ul>
+  </div>
+
+  <div class="form-wrap">
+    <h2>оставить заявку</h2>
+    <!-- ↓ когда будет готова Google-форма (дубль ops-формы с правкой вопроса про примеры) — раскомментировать iframe и убрать contact-блок ниже:
+    <iframe
+      src="https://docs.google.com/forms/d/e/PASTE_FORM_ID/viewform?embedded=true"
+      width="100%" height="1500" frameborder="0" marginheight="0" marginwidth="0"
+      style="border:0; background:transparent;" title="VAHUE — отклик Communication Assistant">загрузка…</iframe>
+    -->
+    <p style="margin:0 0 16px; color:var(--ink-soft); font-size:14.5px;">пришли отклик в личку — что из «как откликнуться» выше плюс ссылки на работы. отвечаем всем.</p>
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <a href="https://t.me/velvet_slava" class="cta-btn">написать в telegram →</a>
+      <a href="mailto:velvet.slava@gmail.com?subject=Communication%20Assistant%20%E2%80%94%20%D0%BE%D1%82%D0%BA%D0%BB%D0%B8%D0%BA" class="cta-btn alt">на почту →</a>
+    </div>
+  </div>
+
+  <div class="meta">
+    <span>vahue · communication assistant · v0.6</span>
+    <span>фикс · remote · global</span>
+    <span>uplift consciousness, integrally</span>
+  </div>
+
+</div>
+</body>
+</html>
