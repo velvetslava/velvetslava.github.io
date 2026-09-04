@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VAHUE · event control prototype</title>
+  <style>
+    @font-face {
+      font-family: "Onest";
+      src: url("assets/onest-400.ttf") format("truetype");
+      font-weight: 400;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Onest";
+      src: url("assets/onest-600.ttf") format("truetype");
+      font-weight: 600;
+      font-display: swap;
+    }
+
+    :root {
+      --paper: #e8e9e3;
+      --surface: #f4f5ef;
+      --ink: #171813;
+      --muted: #66685f;
+      --line: #c8cabf;
+      --line-strong: #989b90;
+      --gold: #8c6320;
+      --gold-soft: #e8dfce;
+      --red: #912f26;
+      --red-soft: #ead9d4;
+      --green: #315c44;
+      --green-soft: #dce6dd;
+      --blue: #35566f;
+      --max: 1320px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Onest", "Helvetica Neue", sans-serif;
+      font-size: 15px;
+      line-height: 1.48;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, a { font: inherit; }
+    button { color: inherit; }
+    a { color: inherit; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+    a:hover { color: var(--gold); }
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+    .shell { width: min(calc(100% - 40px), var(--max)); margin: 0 auto; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: color-mix(in srgb, var(--paper) 94%, transparent);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .topbar__inner {
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .brand { display: flex; align-items: baseline; gap: 12px; }
+    .brand strong { font-size: 15px; letter-spacing: .08em; }
+    .brand span, .asof { color: var(--muted); font-size: 12px; }
+    .asof { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; }
+
+    main { padding: 46px 0 88px; }
+    .view[hidden] { display: none; }
+    .eyebrow {
+      margin: 0 0 13px;
+      color: var(--gold);
+      font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      max-width: 930px;
+      margin-bottom: 18px;
+      font-family: "Newsreader", Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(38px, 5vw, 68px);
+      line-height: 1.02;
+      letter-spacing: -.035em;
+    }
+    h2 {
+      font-family: "Newsreader", Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(28px, 3vw, 40px);
+      line-height: 1.08;
+      letter-spacing: -.025em;
+    }
+    h3 { margin-bottom: 8px; font-size: 16px; font-weight: 600; }
+    .lede { max-width: 760px; color: var(--muted); font-size: 17px; }
+    .rule { border: 0; border-top: 1px solid var(--line-strong); margin: 39px 0 0; }
+
+    .portfolio-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      margin-top: 42px;
+      border-top: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .portfolio-metric { padding: 17px 18px 18px 0; border-right: 1px solid var(--line); }
+    .portfolio-metric + .portfolio-metric { padding-left: 18px; }
+    .portfolio-metric:last-child { border-right: 0; }
+    .metric-label { display: block; margin-bottom: 9px; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .07em; }
+    .metric-value { display: block; font-size: 25px; line-height: 1; font-variant-numeric: tabular-nums; }
+    .metric-note { display: block; margin-top: 7px; color: var(--muted); font-size: 12px; }
+
+    .events { margin-top: 60px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 14px; }
+    .section-head h2 { margin-bottom: 0; }
+    .legend { display: flex; gap: 16px; color: var(--muted); font-size: 12px; }
+    .legend span::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: var(--line-strong); }
+    .legend .risk::before { background: var(--red); }
+    .legend .watch::before { background: var(--gold); }
+
+    .event-list { border-top: 1px solid var(--line-strong); }
+    .event-card {
+      width: 100%;
+      padding: 25px 0 27px;
+      display: grid;
+      grid-template-columns: 2.15fr .9fr 1.2fr 2fr 28px;
+      align-items: start;
+      gap: 24px;
+      border: 0;
+      border-bottom: 1px solid var(--line-strong);
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+      transition: background-color 160ms ease, padding 160ms ease;
+    }
+    .event-card:hover { padding-left: 14px; padding-right: 14px; background: var(--surface); }
+    .event-card__name { font-size: 22px; line-height: 1.15; }
+    .event-card__name small { display: block; margin-top: 7px; color: var(--muted); font-size: 13px; }
+    .event-card__value { font-size: 14px; }
+    .event-card__label { display: block; margin-bottom: 7px; color: var(--muted); font-size: 10px; letter-spacing: .07em; text-transform: uppercase; }
+    .event-card__risk { max-width: 360px; }
+    .event-card__arrow { padding-top: 20px; font-size: 22px; color: var(--gold); }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 25px;
+      padding: 3px 8px;
+      border: 1px solid currentColor;
+      font-size: 11px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .status--red { color: var(--red); }
+    .status--gold { color: var(--gold); }
+    .status--green { color: var(--green); }
+    .status--gray { color: var(--muted); }
+
+    .decision-note {
+      margin-top: 44px;
+      padding: 19px 22px;
+      display: grid;
+      grid-template-columns: 170px 1fr;
+      gap: 26px;
+      border-left: 3px solid var(--gold);
+      background: var(--surface);
+    }
+    .decision-note strong { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+    .decision-note p { margin: 0; max-width: 880px; }
+
+    /* detail */
+    .back {
+      min-height: 44px;
+      margin: -8px 0 34px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .back:hover { color: var(--gold); }
+    .detail-hero { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 70px; align-items: end; }
+    .detail-hero h1 { margin-bottom: 13px; }
+    .detail-meta { color: var(--muted); font-size: 16px; }
+    .health-box { border-top: 2px solid var(--red); padding-top: 13px; }
+    .health-box.gold { border-color: var(--gold); }
+    .health-box__status { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+    .health-box__status strong { font-size: 14px; }
+    .health-box p { margin: 0; color: var(--muted); font-size: 13px; }
+
+    .fact-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      margin: 35px 0 58px;
+      border-top: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .fact { min-height: 96px; padding: 16px 16px 15px 0; border-right: 1px solid var(--line); }
+    .fact + .fact { padding-left: 16px; }
+    .fact:last-child { border-right: 0; }
+    .fact b { display: block; font-size: 19px; font-weight: 400; line-height: 1.15; }
+    .fact small { display: block; margin-top: 7px; color: var(--muted); font-size: 11px; }
+
+    .detail-grid { display: grid; grid-template-columns: minmax(0, 1.62fr) minmax(320px, .78fr); gap: 64px; }
+    .block { margin-bottom: 55px; }
+    .block-title { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--line-strong); }
+    .block-title h2 { margin: 0; font-size: 28px; }
+    .block-title span { color: var(--muted); font-size: 11px; }
+
+    .decision-list { list-style: none; margin: 0; padding: 0; }
+    .decision {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr) 135px;
+      gap: 18px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .decision__n { color: var(--gold); font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 12px; }
+    .decision p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+    .decision__when { text-align: right; color: var(--red); font-size: 12px; }
+    .decision__when.gold { color: var(--gold); }
+
+    .workstreams { width: 100%; border-collapse: collapse; }
+    .workstreams th, .workstreams td { padding: 13px 10px 13px 0; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    .workstreams th { color: var(--muted); font-size: 10px; font-weight: 400; letter-spacing: .06em; text-transform: uppercase; }
+    .workstreams td { font-size: 13px; }
+    .workstreams td:first-child { width: 19%; font-weight: 600; }
+    .workstreams td:nth-child(2) { width: 95px; }
+    .workstreams td:last-child { width: 115px; color: var(--muted); }
+
+    .timeline { margin: 0; padding: 0; list-style: none; }
+    .timeline li { position: relative; display: grid; grid-template-columns: 92px 1fr; gap: 18px; padding: 0 0 24px; }
+    .timeline li::before { content: ""; position: absolute; left: 99px; top: 8px; bottom: -3px; width: 1px; background: var(--line); }
+    .timeline li:last-child::before { display: none; }
+    .timeline time { color: var(--muted); font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 11px; }
+    .timeline__body { position: relative; padding-left: 20px; }
+    .timeline__body::before { content: ""; position: absolute; left: -4px; top: 5px; width: 8px; height: 8px; border-radius: 50%; background: var(--paper); border: 2px solid var(--gold); }
+    .timeline__body.risk::before { border-color: var(--red); }
+    .timeline__body.done::before { border-color: var(--green); background: var(--green); }
+    .timeline__body strong { display: block; font-size: 13px; }
+    .timeline__body span { display: block; margin-top: 3px; color: var(--muted); font-size: 12px; }
+
+    .aside-card { margin-bottom: 31px; padding-top: 13px; border-top: 1px solid var(--line-strong); }
+    .aside-card h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; }
+    .aside-card p { color: var(--muted); font-size: 13px; }
+    .aside-card dl { margin: 0; }
+    .aside-card dl > div { display: grid; grid-template-columns: 105px 1fr; gap: 14px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+    .aside-card dt { color: var(--muted); font-size: 11px; }
+    .aside-card dd { margin: 0; font-size: 12px; }
+    .source-list { margin: 0; padding: 0; list-style: none; }
+    .source-list li { padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 12px; }
+    .source-list small { display: block; margin-top: 2px; color: var(--muted); }
+
+    .confidence {
+      margin-top: 52px;
+      padding: 17px 0;
+      border-top: 1px solid var(--line-strong);
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .confidence b { color: var(--ink); }
+
+    @media (max-width: 980px) {
+      .portfolio-strip { grid-template-columns: repeat(2, 1fr); }
+      .portfolio-metric:nth-child(2) { border-right: 0; }
+      .portfolio-metric:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .event-card { grid-template-columns: 1.7fr .8fr 1.5fr 28px; }
+      .event-card > :nth-child(3) { display: none; }
+      .detail-hero { grid-template-columns: 1fr; gap: 28px; }
+      .fact-strip { grid-template-columns: repeat(3, 1fr); }
+      .fact:nth-child(3) { border-right: 0; }
+      .fact:nth-child(-n+3) { border-bottom: 1px solid var(--line); }
+      .fact:nth-child(4), .fact:nth-child(5) { border-top: 0; }
+      .detail-grid { grid-template-columns: 1fr; gap: 14px; }
+    }
+
+    @media (max-width: 680px) {
+      body { font-size: 14px; }
+      .shell { width: min(calc(100% - 28px), var(--max)); }
+      .brand span, .asof { display: none; }
+      main { padding-top: 32px; }
+      h1 { font-size: 40px; }
+      .portfolio-strip { grid-template-columns: 1fr 1fr; }
+      .portfolio-metric { min-height: 105px; }
+      .metric-value { font-size: 21px; }
+      .section-head { align-items: start; flex-direction: column; }
+      .legend { flex-wrap: wrap; }
+      .event-card { min-height: 44px; grid-template-columns: 1fr 26px; gap: 15px; }
+      .event-card > :not(:first-child):not(:last-child) { display: none; }
+      .event-card__name { font-size: 20px; }
+      .decision-note { grid-template-columns: 1fr; gap: 8px; }
+      .fact-strip { grid-template-columns: 1fr 1fr; }
+      .fact, .fact:nth-child(3) { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+      .fact:nth-child(even) { border-right: 0; }
+      .fact:last-child { border-bottom: 0; }
+      .decision { grid-template-columns: 38px 1fr; }
+      .decision__when { grid-column: 2; text-align: left; }
+      .workstreams { display: block; overflow-x: auto; }
+      .timeline li { grid-template-columns: 72px 1fr; }
+      .timeline li::before { left: 79px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar__inner">
+      <div class="brand"><strong>VAHUE</strong><span>event control · prototype</span></div>
+      <div class="asof">операционный срез · 04.09.2026</div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section id="portfolio" class="view" aria-labelledby="portfolio-title">
+      <p class="eyebrow">портфель событий / ближайшие 38 дней</p>
+      <h1 id="portfolio-title">два события. четыре решения, которые нельзя пропустить.</h1>
+      <p class="lede">не отчёт о проделанной работе. короткая система управления тем, что ещё может сорвать событие или создать финансовый ущерб.</p>
+
+      <div class="portfolio-strip" aria-label="Сводка портфеля">
+        <div class="portfolio-metric"><span class="metric-label">активных событий</span><span class="metric-value">2</span><span class="metric-note">москва · portugal</span></div>
+        <div class="portfolio-metric"><span class="metric-label">критичных решений</span><span class="metric-value">4</span><span class="metric-note">2 требуют действия сейчас</span></div>
+        <div class="portfolio-metric"><span class="metric-label">ближайший старт</span><span class="metric-value">14 дней</span><span class="metric-note">kupri · модуль москва</span></div>
+        <div class="portfolio-metric"><span class="metric-label">неподтверждённый риск</span><span class="metric-value">€27k+</span><span class="metric-note">tantra · платёж / первичка</span></div>
+      </div>
+
+      <section class="events" aria-labelledby="events-title">
+        <div class="section-head">
+          <h2 id="events-title">события</h2>
+          <div class="legend"><span class="risk">действовать сейчас</span><span class="watch">нужно подтвердить</span></div>
+        </div>
+        <div class="event-list">
+          <button class="event-card" type="button" data-open="moscow" aria-label="Открыть карточку Куприянов Москва">
+            <span class="event-card__name">kupri · москва<small>кластер · 18–28 сентября · 3 события</small></span>
+            <span class="event-card__value"><span class="event-card__label">здоровье</span><span class="status status--gold">требует фиксации</span></span>
+            <span class="event-card__value"><span class="event-card__label">следующая дата</span>15 сентября<br><small>перелёт в москву</small></span>
+            <span class="event-card__risk"><span class="event-card__label">главный bottleneck</span>арбат выбран первым вариантом, но договор, оплата и закрепление всех дат не найдены</span>
+            <span class="event-card__arrow" aria-hidden="true">→</span>
+          </button>
+
+          <button class="event-card" type="button" data-open="tantra" aria-label="Открыть карточку Wild Tantra Portugal">
+            <span class="event-card__name">wild tantra · portugal<small>residential retreat · 5–11 октября</small></span>
+            <span class="event-card__value"><span class="event-card__label">здоровье</span><span class="status status--red">решение сегодня</span></span>
+            <span class="event-card__value"><span class="event-card__label">следующая дата</span>4 сентября<br><small>glamping / privacy</small></span>
+            <span class="event-card__risk"><span class="event-card__label">главный bottleneck</span>отпустить 15 glamping и потерять приватность или оплатить полный buyout</span>
+            <span class="event-card__arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+      </section>
+
+      <aside class="decision-note">
+        <strong>принцип экрана</strong>
+        <p>зелёный статус возникает не потому, что «много сделано», а когда закрыты критические обязательства: есть договор, платёж, билет, rooming list и письменное подтверждение площадки.</p>
+      </aside>
+    </section>
+
+    <section id="detail-moscow" class="view" hidden aria-labelledby="moscow-title">
+      <button class="back" type="button" data-back>← все события</button>
+      <div class="detail-hero">
+        <div>
+          <p class="eyebrow">kupri / city cluster / москва</p>
+          <h1 id="moscow-title">москва · модуль + два ретрита</h1>
+          <p class="detail-meta">16–29 сентября · модуль 18–20 · ретриты 22–24 и 26–28</p>
+        </div>
+        <aside class="health-box gold">
+          <div class="health-box__status"><strong>требует фиксации</strong><span class="status status--gold">t−14</span></div>
+          <p>venue выбран по вайбу и осмотрен физически. в доступном контексте нет evidence договора, оплаты и подтверждения трёх блоков дат.</p>
+        </aside>
+      </div>
+
+      <div class="fact-strip">
+        <div class="fact"><span class="event-card__label">операционный owner</span><b>марина</b><small>кира · business support</small></div>
+        <div class="fact"><span class="event-card__label">host</span><b>дима</b><small>в москве с ~12 сентября</small></div>
+        <div class="fact"><span class="event-card__label">venue</span><b>арбат</b><small>first choice · точное юр. название не найдено</small></div>
+        <div class="fact"><span class="event-card__label">facilitator arrival</span><b>15 сентября</b><small>из предыдущего города</small></div>
+        <div class="fact"><span class="event-card__label">финансовый gate</span><b>rub rail</b><small>дедлайн 15 августа просрочен</small></div>
+      </div>
+
+      <div class="detail-grid">
+        <div>
+          <section class="block">
+            <div class="block-title"><h2>решить сейчас</h2><span>по убыванию необратимости</span></div>
+            <ol class="decision-list">
+              <li class="decision"><span class="decision__n">01</span><div><h3>закрепить venue документом и оплатой</h3><p>подтвердить точное название площадки на арбате, все три блока дат, стоимость, часы доступа, cancellation policy и получить receipt.</p></div><span class="decision__when">сейчас · owner марина</span></li>
+              <li class="decision"><span class="decision__n">02</span><div><h3>закрыть билет и проживание сергея</h3><p>в календаре стоит перелёт в москву 15 сентября. билета, маршрута, номера и дат проживания в доступных evidence нет.</p></div><span class="decision__when">сейчас · owner кира</span></li>
+              <li class="decision"><span class="decision__n">03</span><div><h3>утвердить layout и equipment</h3><p>один туалет, нет кондиционера, нужен список мебели, пуфов, пледов, подушек, света, посуды, бойлеров и аренды.</p></div><span class="decision__when gold">до 7 сентября</span></li>
+              <li class="decision"><span class="decision__n">04</span><div><h3>зафиксировать питание на каждый день</h3><p>на месте изучены греческий ресторан, steak restaurant, кофемания и catering boxes. решения по меню, бюджету и таймингам нет.</p></div><span class="decision__when gold">до 9 сентября</span></li>
+            </ol>
+          </section>
+
+          <section class="block">
+            <div class="block-title"><h2>контур подготовки</h2><span>факт → следующее обязательство</span></div>
+            <table class="workstreams">
+              <thead><tr><th>поток</th><th>статус</th><th>что известно / следующий шаг</th><th>owner · срок</th></tr></thead>
+              <tbody>
+                <tr><td>даты</td><td><span class="status status--green">зафиксировано</span></td><td>18–20 модуль; 22–24 и 26–28 ретриты. 16–17 и 21/25/29 — отдых.</td><td>кира · мониторить</td></tr>
+                <tr><td>venue</td><td><span class="status status--gold">gap</span></td><td>осмотрены CBC, «тайная комната», «атмосфера» и арбат. first choice — арбат. нужен договор + receipt + доступ.</td><td>марина · сейчас</td></tr>
+                <tr><td>качество venue</td><td><span class="status status--gold">условно</span></td><td>приватно, отель в здании, один туалет, без кондиционера. проверить вентиляцию, шум, окна, проход внешних гостей.</td><td>дима · до 7.09</td></tr>
+                <tr><td>travel</td><td><span class="status status--red">нет evidence</span></td><td>перелёт в москву 15.09. маршрут тура ранее менялся. нужен билет + багаж + трансфер.</td><td>кира · сейчас</td></tr>
+                <tr><td>hotel</td><td><span class="status status--gold">исследовано</span></td><td>отель при venue приятный; номера во двор тише, на дорогу могут шуметь. забронированный номер Сергея не найден.</td><td>кира · сейчас</td></tr>
+                <tr><td>equipment</td><td><span class="status status--gold">в работе</span></td><td>дима инвентаризирует домашние пледы/подушки. площадка уточняет мебель, свет, посуду, чайник и кофемашину.</td><td>дима + марина · 7.09</td></tr>
+                <tr><td>food</td><td><span class="status status--gold">варианты</span></td><td>рестораны в здании + delivery. требуется дневной план и бюджет; ориентир из прошлого чата $15–30 за lunch не утверждён.</td><td>дима · 9.09</td></tr>
+                <tr><td>host / morning</td><td><span class="status status--gold">частично</span></td><td>дима готов вести часть утренних практик; саша адам — не все дни. распределить расписание.</td><td>марина · 11.09</td></tr>
+                <tr><td>participant comms</td><td><span class="status status--gray">позже</span></td><td>знакомство host с чатами планировалось примерно за неделю до старта.</td><td>кира · 11.09</td></tr>
+                <tr><td>payments</td><td><span class="status status--red">просрочено</span></td><td>«белая» рублёвая рельса должна была быть готова 15.08. подтверждения закрытия нет.</td><td>founders · сейчас</td></tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+
+        <aside>
+          <section class="aside-card">
+            <h3>критический календарь</h3>
+            <ol class="timeline">
+              <li><time>26 авг</time><div class="timeline__body done"><strong>venue осмотрены физически</strong><span>CBC, министерство, арбат</span></div></li>
+              <li><time>04 сен</time><div class="timeline__body risk"><strong>договор / билет не подтверждены</strong><span>операционная дата системы</span></div></li>
+              <li><time>07 сен</time><div class="timeline__body"><strong>freeze equipment</strong><span>что даёт venue / что арендуем</span></div></li>
+              <li><time>09 сен</time><div class="timeline__body"><strong>freeze food plan</strong><span>меню, бюджет, доставка, посуда</span></div></li>
+              <li><time>11 сен</time><div class="timeline__body"><strong>host в participant chats</strong><span>контакт и ожидания</span></div></li>
+              <li><time>12 сен</time><div class="timeline__body"><strong>дима возвращается в москву</strong><span>закупка / финальный walkthrough</span></div></li>
+              <li><time>15 сен</time><div class="timeline__body risk"><strong>сергей летит в москву</strong><span>билет должен иметь receipt</span></div></li>
+              <li><time>18 сен</time><div class="timeline__body"><strong>старт модуля</strong><span>первое из трёх событий</span></div></li>
+            </ol>
+          </section>
+
+          <section class="aside-card">
+            <h3>venue · brief</h3>
+            <dl>
+              <div><dt>выбор</dt><dd>арбат · first choice 26.08</dd></div>
+              <div><dt>сильное</dt><dd>приватность, clean canvas, отель в здании</dd></div>
+              <div><dt>риск</dt><dd>1 туалет, нет ac, вход / circulation не зафиксированы</dd></div>
+              <div><dt>еда</dt><dd>греческий + steak + catering / delivery</dd></div>
+              <div><dt>equipment</dt><dd>частично у host, остаток запросить у venue</dd></div>
+              <div><dt>контракт</dt><dd><b>не найден в доступном контексте</b></dd></div>
+            </dl>
+          </section>
+
+          <section class="aside-card">
+            <h3>evidence</h3>
+            <ul class="source-list">
+              <li>telegram · Kupri Moscow Sep'26 // Org<small>live export 04.09</small></li>
+              <li>travel calendar 2026–2027<small>даты и маршрут · private source</small></li>
+              <li>moscow postlaunch review<small>предыдущие ошибки venue · private source</small></li>
+              <li>season operating context<small>экономика и learning’и · private source</small></li>
+            </ul>
+          </section>
+        </aside>
+      </div>
+      <p class="confidence"><b>качество данных:</b> даты подтверждены календарём и орг-чатом. venue, travel и hotel показаны как gaps, потому что договоров, receipts и билетов в доступных источниках нет. рекомендованные внутренние сроки 7/9/11 сентября — не договорные, а proposed control dates.</p>
+    </section>
+
+    <section id="detail-tantra" class="view" hidden aria-labelledby="tantra-title">
+      <button class="back" type="button" data-back>← все события</button>
+      <div class="detail-hero">
+        <div>
+          <p class="eyebrow">pema / residential retreat / portugal</p>
+          <h1 id="tantra-title">wild tantra · DOMA</h1>
+          <p class="detail-meta">5–11 октября · Nova Quinta dos Machados · план 42 человека</p>
+        </div>
+        <aside class="health-box">
+          <div class="health-box__status"><strong>решение сегодня</strong><span class="status status--red">t−31</span></div>
+          <p>сегодня последний день до перехода сокращений в 90% penalty-window. одновременно нужно решить buyout glamping ради приватности.</p>
+        </aside>
+      </div>
+
+      <div class="fact-strip">
+        <div class="fact"><span class="event-card__label">operations</span><b>кира + марина</b><small>DOMA: emily + yaroslav + fleur</small></div>
+        <div class="fact"><span class="event-card__label">venue contract</span><b>€67,135</b><small>provisional · draft redline</small></div>
+        <div class="fact"><span class="event-card__label">paid roster</span><b>22</b><small>finance model 24.08 · live crm not synced</small></div>
+        <div class="fact"><span class="event-card__label">working plan</span><b>42</b><small>22 paid + 4 partial + 6 yes + 10 target</small></div>
+        <div class="fact"><span class="event-card__label">next hard gate</span><b>20 сентября</b><small>rooming / menu / schedule / equipment</small></div>
+      </div>
+
+      <div class="detail-grid">
+        <div>
+          <section class="block">
+            <div class="block-title"><h2>решить сейчас</h2><span>impact × необратимость</span></div>
+            <ol class="decision-list">
+              <li class="decision"><span class="decision__n">01</span><div><h3>glamping: privacy или экономия</h3><p>рабочая заявка — оставить 6 из 21 и отпустить 15. тогда DOMA откроет их внешним гостям. альтернатива — удержать buyout и внести депозит. финальный ответ обещан EOB friday.</p></div><span class="decision__when">4 сентября · founders</span></li>
+              <li class="decision"><span class="decision__n">02</span><div><h3>проверить платёж 40% и подписанный контракт</h3><p>депозит €13,427 подтверждён. evidence транша около €27k с дедлайном 7 июля в ledger не найден; локальный контракт всё ещё обозначен draft / pending sign-off.</p></div><span class="decision__when">сейчас · кира</span></li>
+              <li class="decision"><span class="decision__n">03</span><div><h3>закрыть проживание команды после 11 октября</h3><p>DOMA полностью выкуплена другой группой. нужны room 23 для pema/sahido и suite 36 для оли/димы до 12. исключение пока не подтверждено.</p></div><span class="decision__when">сейчас · марина</span></li>
+              <li class="decision"><span class="decision__n">04</span><div><h3>зафиксировать fee Пемы и travel команды</h3><p>в модели стоит €48,242 пропорционально 42 людям, но договора Пемы 2026 нет. даты safar/hitesh и ticket receipts команды не найдены.</p></div><span class="decision__when gold">до 10 сентября</span></li>
+            </ol>
+          </section>
+
+          <section class="block">
+            <div class="block-title"><h2>контур подготовки</h2><span>факт → следующее обязательство</span></div>
+            <table class="workstreams">
+              <thead><tr><th>поток</th><th>статус</th><th>что известно / следующий шаг</th><th>owner · срок</th></tr></thead>
+              <tbody>
+                <tr><td>venue</td><td><span class="status status--green">закреплён</span></td><td>DOMA / Quinta dos Machados; main hall 6 дней + lagar 3 дня. депозит €13,427 оплачен.</td><td>кира · monitor</td></tr>
+                <tr><td>contract</td><td><span class="status status--red">evidence gap</span></td><td>локально только redline draft. найти подписанную версию и подтверждение транша 40%.</td><td>кира · сейчас</td></tr>
+                <tr><td>glamping</td><td><span class="status status--red">решение</span></td><td>21 зарезервирован; план оставить 6. release остальных нарушает эксклюзивность территории.</td><td>founders · 04.09</td></tr>
+                <tr><td>rooming</td><td><span class="status status--gold">в работе</span></td><td>4.10 заблокированы rooms 1, 23, 36. после 11.10 DOMA full buyout другой группой. финальный roster до 20.09.</td><td>кира · 20.09</td></tr>
+                <tr><td>facilitator team</td><td><span class="status status--gold">частично</span></td><td>pema/sahido 4–12; lotte 5–11; erika 4–11; safar/hitesh dates pending. проверить билеты и трансферы.</td><td>кира · 10.09</td></tr>
+                <tr><td>chef / food</td><td><span class="status status--gold">частично</span></td><td>katya €7k подтверждено; chef приезжает за 2 дня; нужны 3 надёжных cooks 07:00–21:00. menu / diets freeze 20.09.</td><td>марина · 20.09</td></tr>
+                <tr><td>restaurant</td><td><span class="status status--green">согласовано</span></td><td>winter garden + lounge; 6×10 + отдельный стол 8; возможна перестройка men/women.</td><td>DOMA · evidence в чате</td></tr>
+                <tr><td>practice rooms</td><td><span class="status status--gold">проверить</span></td><td>оба зала должны быть полностью готовы до старта. вместимость lagar, приватность окон/дверей и 24° требуют walkthrough.</td><td>марина · 20.09</td></tr>
+                <tr><td>AV / equipment</td><td><span class="status status--red">awaiting DOMA</span></td><td>список отправлен email 10.08; 01.09 DOMA обещала feedback. нужен gap-list: sound ×2, mics, cables, mattresses, pillows, sheets, yoga mats.</td><td>марина · 08.09</td></tr>
+                <tr><td>consumables</td><td><span class="status status--gray">не начато</span></td><td>5l organic oil, cups ×25 pairs, gloves s/l, tissues ×10, towels, batteries, pillowcases, covers.</td><td>ops · 20.09</td></tr>
+                <tr><td>sales / roster</td><td><span class="status status--red">volume risk</span></td><td>план 42; snapshot 24.08: 22 paid, 4 partial, 6 yes, +10 target. male outreach остаётся главным sales bottleneck.</td><td>слава + дима · daily</td></tr>
+                <tr><td>final payment</td><td><span class="status status--gold">upcoming</span></td><td>остаток venue должен быть оплачен за 14 дней до старта; late fee 5% за неделю.</td><td>кира · 21.09</td></tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+
+        <aside>
+          <section class="aside-card">
+            <h3>критический календарь</h3>
+            <ol class="timeline">
+              <li><time>04 сен</time><div class="timeline__body risk"><strong>glamping final call</strong><span>privacy vs deposit / buyout</span></div></li>
+              <li><time>05 сен</time><div class="timeline__body risk"><strong>penalty становится 90%</strong><span>сокращение rooms / food / scope</span></div></li>
+              <li><time>05 сен</time><div class="timeline__body"><strong>on-site coordinator</strong><span>контрактный срок d−30</span></div></li>
+              <li><time>08 сен</time><div class="timeline__body"><strong>equipment gap-list</strong><span>ответ DOMA + внешняя аренда</span></div></li>
+              <li><time>10 сен</time><div class="timeline__body"><strong>travel team locked</strong><span>tickets, transfers, extra nights</span></div></li>
+              <li><time>20 сен</time><div class="timeline__body risk"><strong>единый d−15 freeze</strong><span>rooming, menu, diets, schedule, staff, access, gear</span></div></li>
+              <li><time>21 сен</time><div class="timeline__body risk"><strong>final venue payment</strong><span>contract: остаток за 14 дней</span></div></li>
+              <li><time>03 окт</time><div class="timeline__body"><strong>chef prep starts</strong><span>kitchen + shopping + cooks</span></div></li>
+              <li><time>04 окт</time><div class="timeline__body"><strong>core team arrival</strong><span>rooms 1 / 23 / 36</span></div></li>
+              <li><time>05 окт</time><div class="timeline__body"><strong>retreat starts</strong><span>все системы tested before arrival</span></div></li>
+            </ol>
+          </section>
+
+          <section class="aside-card">
+            <h3>contract · exposure</h3>
+            <dl>
+              <div><dt>base quote</dt><dd>€67,135 provisional</dd></div>
+              <div><dt>deposit</dt><dd>€13,427 · paid</dd></div>
+              <div><dt>40% tranche</dt><dd><b>~€27k · evidence missing</b></dd></div>
+              <div><dt>late payment</dt><dd>5% за каждую неделю</dd></div>
+              <div><dt>04.09 penalty</dt><dd>70% reduction / cancellation</dd></div>
+              <div><dt>05–20.09</dt><dd>90%</dd></div>
+              <div><dt>с 20.09</dt><dd>100%</dd></div>
+              <div><dt>final payment</dt><dd>21.09</dd></div>
+            </dl>
+          </section>
+
+          <section class="aside-card">
+            <h3>evidence</h3>
+            <ul class="source-list">
+              <li>telegram · DOMA × VAHUE org<small>live export 04.09</small></li>
+              <li>contract redline<small>dates, penalties, payment schedule · private source</small></li>
+              <li>event brief<small>program / venue · private source</small></li>
+              <li>P&amp;L 2025 × 2026<small>roster assumptions + evidence gaps · private source</small></li>
+              <li>DOMA quote / rooming<small>live source kept private</small></li>
+            </ul>
+          </section>
+        </aside>
+      </div>
+      <p class="confidence"><b>качество данных:</b> venue и contract mechanics подтверждены договором и орг-чатом. paid roster = snapshot финансовой модели на 24.08, не live CRM. glamping status актуален на 04.09. fee Пемы, 40% venue payment, signed contract и часть travel показаны как gaps — первичного evidence в доступных источниках нет.</p>
+    </section>
+  </main>
+
+  <script>
+    const views = {
+      portfolio: document.querySelector('#portfolio'),
+      moscow: document.querySelector('#detail-moscow'),
+      tantra: document.querySelector('#detail-tantra')
+    };
+
+    function showView(name, push = true) {
+      const target = views[name] || views.portfolio;
+      Object.values(views).forEach(view => { view.hidden = view !== target; });
+      if (push) history.pushState({ view: name }, '', name === 'portfolio' ? '#events' : `#${name}`);
+      document.title = name === 'portfolio'
+        ? 'VAHUE · event control prototype'
+        : `VAHUE · ${name === 'moscow' ? 'kupri москва' : 'wild tantra'}`;
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    document.querySelectorAll('[data-open]').forEach(button => {
+      button.addEventListener('click', () => showView(button.dataset.open));
+    });
+    document.querySelectorAll('[data-back]').forEach(button => {
+      button.addEventListener('click', () => showView('portfolio'));
+    });
+    window.addEventListener('popstate', event => showView(event.state?.view || location.hash.slice(1) || 'portfolio', false));
+
+    const initial = ['moscow', 'tantra'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'portfolio';
+    showView(initial, false);
+  </script>
+</body>
+</html>
